@@ -1,4 +1,4 @@
-package com.block.chain.news;
+package com.block.chain.news.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
