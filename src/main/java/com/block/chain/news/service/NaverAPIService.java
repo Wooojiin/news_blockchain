@@ -3,19 +3,13 @@ package com.block.chain.news.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,8 +36,7 @@ public class NaverAPIService {
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
 
-//            String postParams = "source=" + inputLanguage + "&target" + outputLanguage + "&text=" + encodedText;
-            String postParams = "source=ko&target=en&text=" + encodedText;
+            String postParams = "source=" + inputLanguage + "&target=" + outputLanguage + "&text=" + encodedText;
             con.setDoOutput(true);
 
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
