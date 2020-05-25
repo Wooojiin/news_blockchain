@@ -1,3 +1,35 @@
-# 뉴스 SNS 서비스
+# Backend
 
-> Spring Boot와 Hyperledger를 이용한 뉴스 SNS 서비스
+> Spring Boot, JPA
+
+
+
+
+
+##### User
+
+- id - Long
+- nickname - String
+- email - String
+- profile picture - String
+
+
+
+##### Post
+
+- postId - Long
+- title - String
+- author - String
+- content - String
+- image - String
+- state - String
+- topic - Topic
+- subject_id
+
+
+
+##### Subject
+
+- subject_id - Long
+- keyword?
+

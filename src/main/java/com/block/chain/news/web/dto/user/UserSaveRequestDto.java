@@ -1,11 +1,10 @@
-package com.block.chain.news.web.dto;
+package com.block.chain.news.web.dto.user;
 
 import com.block.chain.news.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.lang.management.LockInfo;
 
 @Getter
 @NoArgsConstructor
@@ -25,7 +24,6 @@ public class UserSaveRequestDto {
 
     public User toEntity(){
         return User.builder()
-                .userId(id)
                 .name(name)
                 .email(email)
                 .picture(picture)
