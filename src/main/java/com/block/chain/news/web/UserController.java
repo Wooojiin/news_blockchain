@@ -1,8 +1,6 @@
 package com.block.chain.news.web;
 
-import com.block.chain.news.service.FollowService;
 import com.block.chain.news.service.UserService;
-import com.block.chain.news.web.dto.user.FollowRequestDto;
 import com.block.chain.news.web.dto.user.UserResponseDto;
 import com.block.chain.news.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final FollowService followService;
 
     @PostMapping("/api/v1/user")
     public ResponseEntity<String> save(@RequestBody UserSaveRequestDto requestDto){
@@ -32,10 +29,4 @@ public class UserController {
         return new ResponseEntity<UserResponseDto>(userService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/api/v1/follow")
-    public ResponseEntity<String> follow(@RequestBody FollowRequestDto requestDto){
-        log.info("Follow email : {}", requestDto.getToUserEmail());
-
-        return new ResponseEntity<String>(followService.follow(requestDto), HttpStatus.OK);
-    }
 }
