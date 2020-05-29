@@ -24,9 +24,8 @@ public class User extends BaseTimeEntity {
 
     private String picture;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private String role;
 
     @OneToMany(mappedBy = "fromUser")
     private List<Follow> follower;
@@ -35,9 +34,11 @@ public class User extends BaseTimeEntity {
     private List<Follow> following;
 
     @Builder
-    public User(String name, String email, String picture){
+    public User(Long userId, String name, String email, String picture, String role){
+        this.userId = userId;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.role = role;
     }
 }
