@@ -25,10 +25,10 @@ public class AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final UserRepository userRepository;
 
-//    public static final String SAVE_FOLDER = "/home/ubuntu/image/";
-//    public static final String IMAGE_URL = "http://i02b202.p.ssafy.io:8081/image/";
-    public static final String SAVE_FOLDER = "C:/ssafy/news/src/main/resources/static/image/";
-    public static final String IMAGE_URL = "localhost:8080/image/";
+    public static final String SAVE_FOLDER = "/home/ubuntu/image/";
+    public static final String IMAGE_URL = "http://k02b2041.p.ssafy.io:8080/image/";
+//    public static final String SAVE_FOLDER = "C:/ssafy/news/src/main/resources/static/image/";
+//    public static final String IMAGE_URL = "localhost:8080/image/";
 
 
     @Transactional
