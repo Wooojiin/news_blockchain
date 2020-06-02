@@ -6,9 +6,6 @@ import com.block.chain.news.domain.post.Post;
 import com.block.chain.news.domain.post.PostRepository;
 import com.block.chain.news.domain.subject.Subject;
 import com.block.chain.news.domain.subject.SubjectRepository;
-import com.block.chain.news.domain.tags.TagsRepository;
-import com.block.chain.news.domain.topic.Topic;
-import com.block.chain.news.domain.topic.TopicRepository;
 import com.block.chain.news.domain.user.User;
 import com.block.chain.news.domain.user.UserRepository;
 import com.block.chain.news.web.dto.SuggestionList;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,8 +27,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PostListRepository postListRepository;
-    private final TopicRepository topicRepository;
-    private final TagsRepository tagsRepository;
     private final SubjectRepository subjectRepository;
 
     @Transactional(readOnly = true)

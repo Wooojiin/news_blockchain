@@ -23,7 +23,6 @@ public class Subject extends BaseTimeEntity{
     @Column(nullable=false)
     private String title;
 
-
     @OneToMany(mappedBy = "subject")
     @JsonBackReference
     private List<Post> posts = new ArrayList<>();

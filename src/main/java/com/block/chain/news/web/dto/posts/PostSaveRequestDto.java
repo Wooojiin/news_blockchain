@@ -1,14 +1,9 @@
 package com.block.chain.news.web.dto.posts;
 
 import com.block.chain.news.domain.post.Post;
-import com.block.chain.news.domain.topic.Topic;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

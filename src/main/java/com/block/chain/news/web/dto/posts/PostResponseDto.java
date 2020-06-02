@@ -2,7 +2,6 @@ package com.block.chain.news.web.dto.posts;
 
 import com.block.chain.news.domain.post.Post;
 import com.block.chain.news.domain.subject.Subject;
-import com.block.chain.news.domain.topic.Topic;
 import lombok.Getter;
 
 import java.util.List;
