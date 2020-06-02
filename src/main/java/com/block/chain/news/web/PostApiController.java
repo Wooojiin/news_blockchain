@@ -66,6 +66,7 @@ public class PostApiController {
 
     @GetMapping("/api/v1/posts/subject")
     public List<SubjectListResponseDto> getSubject(){
+
         return postService.getSubject();
     }
 

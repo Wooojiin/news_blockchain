@@ -18,7 +18,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-//apply plugin: 'com.ewerk.gradle.plugins.querydsl'
+apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
 group 'com.block.chain'
 version '1.0-SNAPSHOT'
@@ -49,9 +49,8 @@ dependencies {
 }
 
 // querydsl 적용
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
+//apply plugin: "com.ewerk.gradle.plugins.querydsl"
 def querydslSrcDir = 'src/main/generated'
-
 querydsl {
     library = "com.querydsl:querydsl-apt"
     jpa = true
@@ -65,3 +64,11 @@ sourceSets {
         }
     }
 }
+
+//compileQuerydsl{
+//    options.annotationProcessorPath = configurations.querydsl
+//}
+//
+//configurations{
+//    querydsl.extendsFrom compileClasspath
+//}

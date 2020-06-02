@@ -2,6 +2,7 @@ package com.block.chain.news.domain.post;
 
 import com.block.chain.news.domain.BaseTimeEntity;
 import com.block.chain.news.domain.subject.Subject;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Post extends BaseTimeEntity {
     private String state;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private Subject subject;
 
     @Column(nullable=false)
@@ -55,7 +56,9 @@ public class Post extends BaseTimeEntity {
     public void updateSelect(String select){
         this.selects = select;
     }
-
+    public void updateSubject(Subject subject){
+        this.subject = subject;
+    }
 }
 
 
