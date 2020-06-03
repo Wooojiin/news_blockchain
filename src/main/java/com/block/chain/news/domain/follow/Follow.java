@@ -17,7 +17,7 @@ public class Follow extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long followId;
 
-    // from -> to   following
+    // from(me) -> to   following
     // to -> from   follower
 
     @ManyToOne(cascade = CascadeType.ALL)
