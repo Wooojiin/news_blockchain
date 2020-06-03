@@ -4,6 +4,7 @@ import com.block.chain.news.domain.advertisement.Advertisement;
 import com.block.chain.news.domain.advertisement.AdvertisementRepository;
 import com.block.chain.news.domain.user.User;
 import com.block.chain.news.domain.user.UserRepository;
+import com.block.chain.news.web.dto.advertisement.AdvertisementListResponseDto;
 import com.block.chain.news.web.dto.advertisement.AdvertisementSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -56,5 +59,16 @@ public class AdvertisementService {
         Advertisement advertisement = requestDto.toEntity(user, saveUrl);
 
         return advertisementRepository.save(advertisement).getAdvertisementId();
+    }
+
+    @Transactional(readOnly = true)
+    public List<AdvertisementListResponseDto> findByUser(String email){
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + email));
+
+        return advertisementRepository.findAllByUser(user).stream()
+                .map(AdvertisementListResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
