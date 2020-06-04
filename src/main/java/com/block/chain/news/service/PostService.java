@@ -33,6 +33,7 @@ public class PostService {
     private final SubjectRepository subjectRepository;
     private final SubjectListRepository subjectListRepository;
     private final FollowService followService;
+
     @Transactional(readOnly = true)
     public List<PostListResponseDto> findAllDesc(){
         List<Post> postList =postRepository.findAll();
