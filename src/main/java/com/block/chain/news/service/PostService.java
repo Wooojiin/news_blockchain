@@ -103,10 +103,10 @@ public class PostService {
     }
 
     @Transactional
-    public Long save(PostSaveRequestDto requestDto) throws Exception{
+    public Long save(PostSaveRequestDto requestDto, String words) throws Exception{
         User user= userRepository.findByEmail(requestDto.getAuthor())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원 존재 X"));
-        Post post = requestDto.toEntity();
+        Post post = requestDto.toEntity(words);
         Long postId = postRepository.save(post).getPostId();
         PostList postList = PostList.builder()
                 .user(user)

@@ -44,12 +44,8 @@ public class PostApiController {
     }
 
     @PostMapping("/api/v1/posts")
-    public ResponseEntity<Long> save(@RequestParam(value="title") String title,
-                                     @RequestParam(value="content") String content,
-                                     @RequestParam(value="author") String author,
-//                                     @RequestParam(value="words") String words,
-                                     @RequestParam(value="kinds") int kinds) throws Exception{
-        String word = Jsoup.parse(content).text();
+    public ResponseEntity<Long> save(@RequestBody PostSaveRequestDto requestDto) throws Exception{
+        String word = Jsoup.parse(requestDto.getContent()).text();
         log.info(word);
         String results = "";
         try{
@@ -57,14 +53,7 @@ public class PostApiController {
         }catch(Exception e){
             return new ResponseEntity<Long>(HttpStatus.SERVICE_UNAVAILABLE);
         }
-        PostSaveRequestDto postSaveRequestDto = PostSaveRequestDto.builder()
-                .title(title)
-                .content(content)
-                .author(author)
-                .words(results)
-                .kinds(kinds)
-                .build();
-        return new ResponseEntity<Long>(postService.save(postSaveRequestDto),HttpStatus.OK);
+        return new ResponseEntity<Long>(postService.save(requestDto, results),HttpStatus.OK);
     }
 
     @PutMapping("/api/v1/posts/{postId}")
