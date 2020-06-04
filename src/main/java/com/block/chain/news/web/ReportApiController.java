@@ -14,13 +14,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class ReportController {
+public class ReportApiController {
     private final ReportService reportService;
 
     @GetMapping("/api/v1/report/{postId}/{userId}")
     public ResponseEntity<Long> report(@PathVariable Long postId,
-                       @PathVariable Long userId){
-        return new ResponseEntity<Long>(reportService.report(postId, userId), HttpStatus.OK);
+                                       @PathVariable Long userId,
+                                       @RequestParam(value="contents") String contents){
+        return new ResponseEntity<Long>(reportService.report(postId, userId, contents), HttpStatus.OK);
     }
 
     @PutMapping("/api/v1/report/{reportId}/{agree}")

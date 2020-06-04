@@ -1,4 +1,4 @@
-package com.block.chain.news.web.dto.user;
+package com.block.chain.news.web.dto.follow;
 
 import com.block.chain.news.domain.follow.Follow;
 import com.block.chain.news.domain.user.User;

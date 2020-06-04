@@ -32,14 +32,18 @@ public class Report extends BaseTimeEntity {
     @ColumnDefault("0")
     private int agree;
 
+    @Column(nullable=false)
+    private String contents;
+
     @Column
     private LocalDate endDate;
 
     @Builder
-    public Report(Post post){
+    public Report(Post post, String contents){
         this.post = post;
         this.disagree = 0;
         this.agree = 0;
+        this.contents = contents;
         this.endDate = LocalDate.now().plusMonths(1);
     }
 

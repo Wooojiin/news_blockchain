@@ -2,6 +2,8 @@ package com.block.chain.news.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -16,15 +18,17 @@ import java.net.URLEncoder;
 @Service
 public class NaverAPIService {
 
-    private final static String HOST = "https://naveropenapi.apigw.ntruss.com";
+    private String HOST = "https://naveropenapi.apigw.ntruss.com";
+    private String TRANSLATION_URL = "/nmt/v1/translation";
 
-    private final static String TRANSLATION_URL = "/nmt/v1/translation";
+    @Value("${naver.clientId}")
+    private String clientId;
 
-    private static String clientId = "";
-    private static String clientSecret = "";
+    @Value("${naver.clientSecret}")
+    private String clientSecret;
 
     //inputLanguage = ko , outputLanguage = en
-    public static String tranlation(String text, String inputLanguage, String outputLanguage){
+    public String translation(String text, String inputLanguage, String outputLanguage){
 
         try {
             String encodedText = URLEncoder.encode(text, "UTF-8");
@@ -61,16 +65,16 @@ public class NaverAPIService {
             }
 
             br.close();
-            return response.toString();
+            String jsonString = response.toString();
+            JSONObject jsonObject = new JSONObject(jsonString);
+
+            String result = jsonObject.getJSONObject("message").getJSONObject("result").getString("translatedText");
+//            return response.toString();
+            return  result;
 
         } catch (Exception e) {
             log.error("Translation error {}", e);
         }
         return "fail";
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(tranlation("오늘 저녁에 뭐먹을거야?","ko","en"));
     }
 }

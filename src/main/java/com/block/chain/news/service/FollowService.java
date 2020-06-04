@@ -4,13 +4,11 @@ import com.block.chain.news.domain.follow.Follow;
 import com.block.chain.news.domain.follow.FollowRepository;
 import com.block.chain.news.domain.user.User;
 import com.block.chain.news.domain.user.UserRepository;
-import com.block.chain.news.web.dto.user.FollowRequestDto;
-import com.block.chain.news.web.dto.user.FollowResponseDto;
+import com.block.chain.news.web.dto.follow.FollowRequestDto;
+import com.block.chain.news.web.dto.follow.FollowResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -38,7 +36,6 @@ public class FollowService {
     public FollowResponseDto GetFollow(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + email));
-
         return new FollowResponseDto(user);
     }
 }

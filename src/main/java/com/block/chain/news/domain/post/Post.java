@@ -31,6 +31,9 @@ public class Post extends BaseTimeEntity {
     @Column(length=100, nullable=false)
     private String state;
 
+    @Column(nullable=false)
+    private int kinds;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     private Subject subject;
@@ -42,12 +45,13 @@ public class Post extends BaseTimeEntity {
     private String selects;
 
     @Builder
-    public Post(String title, String author, String content, String state, String topics){
+    public Post(String title, String author, String content, String state, String topics, int kinds){
         this.title = title;
         this.author = author;
         this.content=content;
         this.state=  state;
         this.topics = topics;
+        this.kinds = kinds;
     }
 
     public void updateState(String state) {

@@ -21,7 +21,7 @@ public class ReportService {
     private final ReportListRepository reportListRepository;
 
 
-    public Long report(Long postId, Long userId){
+    public Long report(Long postId, Long userId, String contents){
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
         User user = userRepository.findById(userId)
@@ -29,8 +29,10 @@ public class ReportService {
         post.updateState("Reported");
         Report report = Report.builder()
                 .post(post)
+                .contents(contents)
                 .build();
-        return postId;
+        reportRepository.save(report);
+        return report.getReportId();
     }
 
     @Transactional

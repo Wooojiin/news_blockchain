@@ -2,8 +2,8 @@ package com.block.chain.news.web;
 
 import com.block.chain.news.service.FollowService;
 import com.block.chain.news.service.UserService;
-import com.block.chain.news.web.dto.user.FollowRequestDto;
-import com.block.chain.news.web.dto.user.FollowResponseDto;
+import com.block.chain.news.web.dto.follow.FollowRequestDto;
+import com.block.chain.news.web.dto.follow.FollowResponseDto;
 import com.block.chain.news.web.dto.user.UserResponseDto;
 import com.block.chain.news.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.block.chain.news.web.dto.user;
+package com.block.chain.news.web.dto.follow;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

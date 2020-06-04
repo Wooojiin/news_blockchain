@@ -15,6 +15,7 @@ public class PostResponseDto {
     private String [] topic;
     private List<Subject> recommendations;
     private Subject subject;
+    private int kinds;
 
     public PostResponseDto (Post entity, List<Subject> recommendations){
         this.title = entity.getTitle();
@@ -23,6 +24,7 @@ public class PostResponseDto {
         this.state = entity.getState();
         this.topic=  entity.getTopics().split(",");
         this.subject = entity.getSubject();
+        this.kinds = entity.getKinds();
         this.recommendations = recommendations;
     }
 }

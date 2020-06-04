@@ -26,6 +26,8 @@ public class QReport extends EntityPathBase<Report> {
 
     public final NumberPath<Integer> agree = createNumber("agree", Integer.class);
 
+    public final StringPath contents = createString("contents");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 

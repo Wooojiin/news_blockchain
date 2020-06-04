@@ -12,13 +12,15 @@ public class PostSaveRequestDto {
     private String content;
     private String author;
     private String words;
+    private int kinds;
 
     @Builder
-    public PostSaveRequestDto(String title,String content, String author, String words){
+    public PostSaveRequestDto(String title,String content, String author, String words, int kinds){
         this.title = title;
         this.content = content;
         this.author = author;
         this.words = words;
+        this.kinds = kinds;
     }
 //    public String stringify(String [][] words){
 //        StringBuilder sb = new StringBuilder();
@@ -42,10 +44,11 @@ public class PostSaveRequestDto {
 
     public Post toEntity(){
         return Post.builder()
-                .title(title)
-                .content(content)
-                .author(author)
-                .topics(words)
+                .title(this.title)
+                .content(this.content)
+                .author(this.author)
+                .topics(this.words)
+                .kinds(this.kinds)
                 .state("SAVE")
                 .build();
     }

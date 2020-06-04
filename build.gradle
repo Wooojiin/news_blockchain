@@ -28,22 +28,25 @@ repositories {
     mavenCentral()
     jcenter()
 }
-
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.projectlombok:lombok')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
 //    compile('com.h2database:h2')
+
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
-
     compile('org.mariadb.jdbc:mariadb-java-client')
     compile('mysql:mysql-connector-java')
-
     compile("com.querydsl:querydsl-jpa") // querydsl
     compile("com.querydsl:querydsl-apt") // querydsl
-
     compile('commons-io:commons-io:2.4')
+
+    compile('org.jsoup:jsoup:1.13.1') // Jsoup용!
+
+    compile('org.json:json:20160810')
+
+    compile('org.apache.httpcomponents:httpclient:4.5') //RestTemplate용 httpclient
 
     testCompile('org.springframework.boot:spring-boot-starter-test:')
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface SubjectRepository extends JpaRepository<Subject, Long> {
+public interface SubjectRepository extends JpaRepository<Subject, Long>, SubjectRepositoryCustom{
 
     Optional<Subject> findByTitle(String title);
     List<Subject> findAllByTitleContaining(String title);
