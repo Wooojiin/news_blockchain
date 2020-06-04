@@ -21,7 +21,7 @@ public class RestTemplateService {
 //    }
 
 //    private static String NODE_ADDRESS = "http://localhost:3777/api/morpheme";
-    private static String NODE_ADDRESS = "http://k02b2041.p.ssafy.io:3777/api/morpheme";
+    private static String NODE_ADDRESS = "http://k02b2041.p.ssafy.io:8197/api/morpheme";
 
     public String getMorpheme(String contents){
         MultiValueMap<String, String> params =new LinkedMultiValueMap<>(); // 이런식으로 하면 되나?
