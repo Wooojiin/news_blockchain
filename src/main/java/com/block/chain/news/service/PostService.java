@@ -33,12 +33,13 @@ public class PostService {
     private final SubjectRepository subjectRepository;
     private final SubjectListRepository subjectListRepository;
     private final FollowService followService;
+
     @Transactional(readOnly = true)
-    public List<PostListResponseDto> findAllDesc(){
+    public List<PostEveryResponseDto> findAllDesc(){
         List<Post> postList =postRepository.findAll();
-        List<PostListResponseDto> postResponseDto = new LinkedList<>();
+        List<PostEveryResponseDto> postResponseDto = new LinkedList<>();
         for (Post post : postList){
-            PostListResponseDto postDto = new PostListResponseDto(post);
+            PostEveryResponseDto postDto = new PostEveryResponseDto(post);
             postResponseDto.add(postDto);
         }
         return postResponseDto;
@@ -196,16 +197,25 @@ public class PostService {
         }
     }
 
-    public List<PostListResponseDto> findByUserEmail(String userEmail) {
-        User user=userRepository.findByEmail(userEmail).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
-        List<Post> posts = postRepository.findAllByAuthor(user.getEmail());
-        List<PostListResponseDto> result = new LinkedList<>();
+    public PostListResponseDto findByUserEmail(String userEmail) {
+//        User user=userRepository.findByEmail(userEmail).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
+        List<Post> posts = postRepository.findAllByAuthor(userEmail);
+        List<Post> savedPost = new LinkedList<>();
+        List<Post> otherPost = new LinkedList<>();
         for (Post post : posts){
-            PostListResponseDto postListResponseDto = new PostListResponseDto(post);
-            result.add(postListResponseDto);
+            if (post.getState().equals("SAVE")){
+//                PostListResponseDto postListResponseDto = new PostListResponseDto(post);
+//                result.add(postListResponseDto);
+                savedPost.add(post);
+            }
+            else{
+                otherPost.add(post);
+            }
         }
+        PostListResponseDto result = new PostListResponseDto(savedPost, otherPost);
         return result;
     }
+
 
     public List<FollowingPostResponseDto> getFollowers(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니닫닫"));

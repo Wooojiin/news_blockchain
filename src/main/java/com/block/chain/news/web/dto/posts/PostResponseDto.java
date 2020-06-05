@@ -21,6 +21,7 @@ public class PostResponseDto {
     private int kinds;
     private String banner;
     private LocalDateTime created;
+    private List<Post> simmilar;
 
     public PostResponseDto (Post entity, List<Subject> recommendations){
         this.title = entity.getTitle();
@@ -34,5 +35,6 @@ public class PostResponseDto {
         this.banner = entity.getBanner();
         this.recommendations = recommendations;
         this.created = entity.getCreateDate();
+        this.simmilar = entity.getSubject().getPosts();
     }
 }
