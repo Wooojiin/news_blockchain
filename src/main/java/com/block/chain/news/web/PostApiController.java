@@ -23,14 +23,14 @@ public class PostApiController {
     private final NaverAPIService naverAPIService;
 
     @GetMapping("/api/v1/posts")
-    public ResponseEntity<List<PostListResponseDto>> getList(){
+    public ResponseEntity<List<PostEveryResponseDto>> getList(){
         log.info("getList");
-        return new ResponseEntity<List<PostListResponseDto>>(postService.findAllDesc(),HttpStatus.OK);
+        return new ResponseEntity<List<PostEveryResponseDto>>(postService.findAllDesc(),HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/posts/user/{userEmail}")
-    public ResponseEntity<List<PostListResponseDto>>findAllByUser(@PathVariable String userEmail){
-        return new ResponseEntity<List<PostListResponseDto>>(postService.findByUserEmail(userEmail), HttpStatus.OK);
+    public ResponseEntity<PostListResponseDto>findAllByUser(@PathVariable String userEmail){
+        return new ResponseEntity<PostListResponseDto>(postService.findByUserEmail(userEmail), HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/posts/{postId}")
@@ -38,6 +38,8 @@ public class PostApiController {
         log.info("findById : {}", postId);
         return new ResponseEntity<PostResponseDto>(postService.findById(postId), HttpStatus.OK);
     }
+
+
 
     @GetMapping("/api/v1/posts/kinds")
     public ResponseEntity<List<KindsResponseDto>> getKinds(){
