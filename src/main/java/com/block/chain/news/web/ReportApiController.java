@@ -2,6 +2,8 @@ package com.block.chain.news.web;
 
 import com.block.chain.news.service.ReportService;
 import com.block.chain.news.web.dto.posts.PostListResponseDto;
+import com.block.chain.news.web.dto.report.ReportAgreeRequestDto;
+import com.block.chain.news.web.dto.report.ReportRequestDto;
 import com.block.chain.news.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +19,16 @@ import java.util.List;
 public class ReportApiController {
     private final ReportService reportService;
 
-    @GetMapping("/api/v1/report/{postId}/{userId}")
+    @PostMapping("/api/v1/report/{postId}/")
     public ResponseEntity<Long> report(@PathVariable Long postId,
-                                       @PathVariable Long userId,
-                                       @RequestParam(value="contents") String contents){
-        return new ResponseEntity<Long>(reportService.report(postId, userId, contents), HttpStatus.OK);
+                                       @RequestBody ReportRequestDto reportRequestDto){
+        return new ResponseEntity<Long>(reportService.report(postId, reportRequestDto.getUserEmail(), reportRequestDto.getContents()), HttpStatus.OK);
     }
 
-    @PutMapping("/api/v1/report/{reportId}/{agree}")
+    @PutMapping("/api/v1/report/{reportId}/")
     public ResponseEntity<Long> agree(@PathVariable Long reportId,
-                                      @PathVariable int agree,
-                                      @RequestParam(value="userId") Long userId){
-        return new ResponseEntity<Long>(reportService.agree(reportId, userId, agree), HttpStatus.OK);
+                                      @RequestBody ReportAgreeRequestDto reportAgreeRequestDto){
+        return new ResponseEntity<Long>(reportService.agree(reportId, reportAgreeRequestDto.getUserEmail(), reportAgreeRequestDto.getAgree()), HttpStatus.OK);
     }
 
 }

@@ -8,7 +8,7 @@ public class PostListResponseDto {
     private Long id;
     private String title;
     private String author;
-//    private String content;
+    private String banner;
     private String state;
 
     public PostListResponseDto(Post entity){
@@ -16,6 +16,7 @@ public class PostListResponseDto {
         this.title=entity.getTitle();
         this.author = entity.getAuthor();
 //        this.content = entity.getContent();
+        this.banner = entity.getBanner();
         this.state = entity.getState();
     }
 }

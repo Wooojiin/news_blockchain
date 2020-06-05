@@ -41,17 +41,21 @@ public class Post extends BaseTimeEntity {
     @Column(nullable=false)
     private String topics;
 
+    @Column(nullable=false)
+    private String banner;
+
     @Column(nullable=true)
     private String selects;
 
     @Builder
-    public Post(String title, String author, String content, String state, String topics, int kinds){
+    public Post(String title, String author, String content, String state, String topics, int kinds, String banner){
         this.title = title;
         this.author = author;
         this.content=content;
         this.state=  state;
         this.topics = topics;
         this.kinds = kinds;
+        this.banner = banner;
     }
 
     public void updateState(String state) {

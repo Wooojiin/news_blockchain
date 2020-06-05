@@ -28,9 +28,9 @@ public class PostApiController {
         return new ResponseEntity<List<PostListResponseDto>>(postService.findAllDesc(),HttpStatus.OK);
     }
 
-    @GetMapping("/api/v1/posts/user/{userId}")
-    public ResponseEntity<List<PostListResponseDto>>findAllByUser(@PathVariable Long userId){
-        return new ResponseEntity<List<PostListResponseDto>>(postService.findByUserId(userId), HttpStatus.OK);
+    @GetMapping("/api/v1/posts/user/{userEmail}")
+    public ResponseEntity<List<PostListResponseDto>>findAllByUser(@PathVariable String userEmail){
+        return new ResponseEntity<List<PostListResponseDto>>(postService.findByUserEmail(userEmail), HttpStatus.OK);
     }
     @GetMapping("/api/v1/posts/{postId}")
     public ResponseEntity<PostResponseDto> findById(@PathVariable Long postId){
@@ -46,6 +46,8 @@ public class PostApiController {
     @PostMapping("/api/v1/posts")
     public ResponseEntity<Long> save(@RequestBody PostSaveRequestDto requestDto) throws Exception{
         String word = Jsoup.parse(requestDto.getContent()).text();
+        log.info("Post requestDto : {}", requestDto.getAuthor());
+        log.info("Post requestDto : {}", requestDto.getContent());
         log.info(word);
         String results = "";
         try{
@@ -58,10 +60,9 @@ public class PostApiController {
 
     @PutMapping("/api/v1/posts/{postId}")
     public ResponseEntity<Long> deploy(@PathVariable Long postId,
-                       @RequestParam(value="selected") String [] selected,
-                                       @RequestParam(value="subjectId") Long subjectId) throws Exception{
-        log.info("subjectId : {}", subjectId);
-        return new ResponseEntity<Long>(postService.deploy(postId, selected, subjectId),HttpStatus.OK);
+                                       @RequestBody PostDeployRequestDto postDeployRequestDto) throws Exception{
+        log.info("subjectId : {}", postDeployRequestDto.getSubjectId());
+        return new ResponseEntity<Long>(postService.deploy(postId, postDeployRequestDto.getSelected(), postDeployRequestDto.getSubjectId()),HttpStatus.OK);
     }
 
     @DeleteMapping("/api/v1/posts/{postId}")
@@ -71,12 +72,16 @@ public class PostApiController {
 
     @GetMapping("/api/v1/posts/subject")
     public ResponseEntity<List<SubjectListResponseDto>> getSubject(){
-
         return new ResponseEntity<List<SubjectListResponseDto>>(postService.getSubject(), HttpStatus.OK);
     }
+//    @GetMapping("/api/v1/posts/following/{email}")
+//    public ResponseEntity<List<FollowingPostResponseDto>> getFollowers(@PathVariable String email){
+//        return new ResponseEntity<List<FollowingPostResponseDto>>(postService.getFollowers(email),HttpStatus.OK);
+//    }
+
     @GetMapping("/api/v1/posts/following/{email}")
-    public ResponseEntity<List<FollowingPostResponseDto>> getFollowers(@PathVariable String email){
-        return new ResponseEntity<List<FollowingPostResponseDto>>(postService.getFollowers(email),HttpStatus.OK);
+    public ResponseEntity<List<FollowerPostResponseDto>> getFollowers(@PathVariable String email){
+        return new ResponseEntity<List<FollowerPostResponseDto>>(postService.getFollowersGroup(email), HttpStatus.OK);
     }
 
     @PostMapping("/api/v1/posts/translation")
