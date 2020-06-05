@@ -3,6 +3,10 @@
 .idea
 application-key.properties
 
+fabric-ca.pem
+fabric-orderer.pem
+fabric-peer.pem
+
 # Created by https://www.gitignore.io/api/java,windows,intellij
 # Edit at https://www.gitignore.io/?templates=java,windows,intellij
 

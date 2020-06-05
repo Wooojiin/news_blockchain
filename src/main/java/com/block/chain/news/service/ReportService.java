@@ -8,9 +8,15 @@ import com.block.chain.news.domain.reportList.ReportList;
 import com.block.chain.news.domain.reportList.ReportListRepository;
 import com.block.chain.news.domain.user.User;
 import com.block.chain.news.domain.user.UserRepository;
+import com.block.chain.news.web.dto.report.ReportListResponseDto;
+import com.block.chain.news.web.dto.report.ReportResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,15 +26,29 @@ public class ReportService {
     private final ReportRepository reportRepository;
     private final ReportListRepository reportListRepository;
 
+    public List<ReportListResponseDto> getAll(){
+        List<ReportListResponseDto> resultSet = new LinkedList<>();
+        List<Report> reports = reportRepository.findAll();
+        for(Report report : reports){
+            ReportListResponseDto reportListResponseDto = new ReportListResponseDto(report);
+            resultSet.add(reportListResponseDto);
+        }
+        return resultSet;
+    }
 
+    public ReportResponseDto getOne(Long reportId){
+        Report report = reportRepository.findById(reportId).orElseThrow(() -> new IllegalArgumentException("잘못된 Report!"));
+        return new ReportResponseDto(report);
+    }
     public Long report(Long postId, String userEmail, String contents){
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("뭔가 잘못 되었습니다"));
+//        User user = userRepository.findByEmail(userEmail)
+//                .orElseThrow(() -> new IllegalArgumentException("뭔가 잘못 되었습니다"));              //이건 왜 넣어 놨니?
         post.updateState("Reported");
         Report report = Report.builder()
                 .post(post)
+                .reporter(userEmail)
                 .contents(contents)
                 .build();
         reportRepository.save(report);

@@ -16,9 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestTemplateService {
     private final RestTemplate restTemplate;
-//    public String getMorpheme(String contents){
-//        return RestTemplateUtil.post(contents);
-//    }
 
     public String getMorpheme(String contents){
         MultiValueMap<String, String> params =new LinkedMultiValueMap<>(); // 이런식으로 하면 되나?
@@ -27,11 +24,16 @@ public class RestTemplateService {
         List<String> result = Arrays.asList(response.getBody());
         StringBuilder sb = new StringBuilder();
         for(int idx = 0; idx < result.size(); idx ++){
-            if(idx == (result.size()-1)){
-                sb.append(result.get(idx));
-            }else {
-                sb.append(result.get(idx));
-                sb.append(",");
+            if (result.get(idx).length() == 0){
+                break;
+            }
+            else {
+                if (idx == (result.size() - 1)) {
+                    sb.append(result.get(idx));
+                } else {
+                    sb.append(result.get(idx));
+                    sb.append(",");
+                }
             }
         }
         return sb.toString();

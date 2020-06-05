@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Report extends BaseTimeEntity {
+public class    Report extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -38,12 +38,16 @@ public class Report extends BaseTimeEntity {
     @Column
     private LocalDate endDate;
 
+    @Column(nullable=false)
+    private String reporter;
+
     @Builder
-    public Report(Post post, String contents){
+    public Report(Post post, String contents,String reporter){
         this.post = post;
+        this.contents = contents;
+        this.reporter = reporter;
         this.disagree = 0;
         this.agree = 0;
-        this.contents = contents;
         this.endDate = LocalDate.now().plusMonths(1);
     }
 

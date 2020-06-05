@@ -32,6 +32,7 @@ public class PostApiController {
     public ResponseEntity<List<PostListResponseDto>>findAllByUser(@PathVariable String userEmail){
         return new ResponseEntity<List<PostListResponseDto>>(postService.findByUserEmail(userEmail), HttpStatus.OK);
     }
+
     @GetMapping("/api/v1/posts/{postId}")
     public ResponseEntity<PostResponseDto> findById(@PathVariable Long postId){
         log.info("findById : {}", postId);

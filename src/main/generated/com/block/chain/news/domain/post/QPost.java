@@ -26,6 +26,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final StringPath author = createString("author");
 
+    public final StringPath banner = createString("banner");
+
     public final StringPath content = createString("content");
 
     //inherited
