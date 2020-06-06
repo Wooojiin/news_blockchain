@@ -24,11 +24,14 @@ public class FollowService {
         User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
 
+//        followRepository.save(Follow.builder()
+//            .fromUser(fromUser)
+//            .toUser(toUser)
+//            .build()))
         followRepository.save(Follow.builder()
-            .fromUser(fromUser)
-            .toUser(toUser)
-            .build());
-
+        .fromUser(toUser)
+        .toUser(fromUser)
+        .build());
         return toUser.getEmail();
     }
 

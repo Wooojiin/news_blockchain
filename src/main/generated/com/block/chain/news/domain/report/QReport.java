@@ -40,6 +40,8 @@ public class QReport extends EntityPathBase<Report> {
 
     public final com.block.chain.news.domain.post.QPost post;
 
+    public final StringPath reporter = createString("reporter");
+
     public final NumberPath<Long> reportId = createNumber("reportId", Long.class);
 
     public QReport(String variable) {

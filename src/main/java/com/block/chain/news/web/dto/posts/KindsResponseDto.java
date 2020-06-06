@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter
 public class KindsResponseDto {
-    String kinds;
+    int kinds;
     List<Post> posts;
 
-    public KindsResponseDto(String kinds, List<Post> posts){
+    public KindsResponseDto(int kinds, List<Post> posts){
         this.kinds = kinds;
         this.posts = posts;
     }

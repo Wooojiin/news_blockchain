@@ -2,6 +2,7 @@ package com.block.chain.news.domain.post;
 
 import com.block.chain.news.domain.BaseTimeEntity;
 import com.block.chain.news.domain.subject.Subject;
+import com.block.chain.news.web.dto.posts.PostUpdateDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
@@ -66,6 +67,12 @@ public class Post extends BaseTimeEntity {
     }
     public void updateSubject(Subject subject){
         this.subject = subject;
+    }
+    public void updatePost(PostUpdateDto entity){
+        this.title = entity.getTitle();
+        this.content = entity.getContent();
+        this.kinds = entity.getKinds();
+        this.banner = entity.getBanner();
     }
 }
 

@@ -1,7 +1,10 @@
 package com.block.chain.news.web.dto.posts;
 
 import com.block.chain.news.domain.post.Post;
+import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class PostEveryResponseDto {
     private Long id;
     private String title;
@@ -9,6 +12,7 @@ public class PostEveryResponseDto {
     private String banner;
     private String state;
 
+    @Builder
     public PostEveryResponseDto(Post entity){
         this.id = entity.getPostId();
         this.title = entity.getTitle();

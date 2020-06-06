@@ -3,8 +3,8 @@ package com.block.chain.news.web;
 import com.block.chain.news.service.NaverAPIService;
 import com.block.chain.news.service.PostService;
 import com.block.chain.news.service.RestTemplateService;
-import com.block.chain.news.web.dto.follow.FollowingPostResponseDto;
 import com.block.chain.news.web.dto.posts.*;
+import com.block.chain.news.web.dto.subject.SubjectListResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -26,6 +26,15 @@ public class PostApiController {
     public ResponseEntity<List<PostEveryResponseDto>> getList(){
         log.info("getList");
         return new ResponseEntity<List<PostEveryResponseDto>>(postService.findAllDesc(),HttpStatus.OK);
+    }
+    @PutMapping("/api/v1/posts/update/{postId}")
+    public ResponseEntity<Long> postUpdate(@PathVariable Long postId,
+                                           @RequestBody PostUpdateDto postUpdateDto){
+        return new ResponseEntity<Long>(postService.updatePost(postId, postUpdateDto), HttpStatus.OK);
+    }
+    @GetMapping("/api/v1/posts/suggestion/{postId}")
+    public SuggestionResponseDto getSuggestion(@PathVariable Long postId){
+        return postService.getSuggestion(postId);
     }
 
     @GetMapping("/api/v1/posts/user/{userEmail}")

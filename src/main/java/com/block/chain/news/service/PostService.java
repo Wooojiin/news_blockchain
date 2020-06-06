@@ -1,5 +1,6 @@
 package com.block.chain.news.service;
 
+import com.block.chain.news.domain.follow.FollowRepository;
 import com.block.chain.news.domain.postList.PostList;
 import com.block.chain.news.domain.postList.PostListRepository;
 import com.block.chain.news.domain.post.Post;
@@ -14,6 +15,8 @@ import com.block.chain.news.web.dto.SuggestionList;
 import com.block.chain.news.web.dto.follow.FollowingPostResponseDto;
 import com.block.chain.news.web.dto.posts.*;
 import com.block.chain.news.web.dto.follow.FollowResponseDto;
+import com.block.chain.news.web.dto.subject.SubjectItem;
+import com.block.chain.news.web.dto.subject.SubjectListResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,7 @@ public class PostService {
     private final SubjectRepository subjectRepository;
     private final SubjectListRepository subjectListRepository;
     private final FollowService followService;
+    private final FollowRepository followRepository;
 
     @Transactional(readOnly = true)
     public List<PostEveryResponseDto> findAllDesc(){
@@ -49,20 +53,30 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
         //List<Topic> topics = topicRepository.findByPostsDesc(post);     //=> 이거 스트링 값으로 바꿔야 한다
-        List<Subject> suggestions = new LinkedList<>();
-        if (post.getState().equals("SAVE")){
-            suggestions = suggestion(postId);
-        }
-        return new PostResponseDto(post, suggestions);
+//        List<SubjectItem> suggestions = new LinkedList<>();
+//        if (post.getState().equals("SAVE")){
+//            suggestions = suggestion(postId);
+//        }
+        return new PostResponseDto(post);
+    }
+    public Long updatePost(Long postId, PostUpdateDto postUpdateDto){
+        Post post = postRepository.findById(postId).orElseThrow(() ->new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
+        post.updatePost(postUpdateDto);
+        return post.getPostId();
+
+    }
+    public SuggestionResponseDto getSuggestion(Long postId){
+        List<SubjectItem> suggestions = suggestion(postId);
+        return new SuggestionResponseDto(suggestions);
     }
 
     @Transactional              //이게 유사한 기사 추천해주는 부분
-    public List<Subject> suggestion(Long postId) {
+    public List<SubjectItem> suggestion(Long postId) {
         String target = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException( "잘못 보냄!"))
                 .getTopics();                             //찾고자 하는 기사의 형태소 가져와서
         String[] targetList = target.split(",");                                           // 배열로 만들고
-        List<Subject> suggestions = new LinkedList<>();
+        List<SubjectItem> suggestions = new LinkedList<>();
         List<Subject> subjects = new LinkedList<>();
         for (String targetOne : targetList) {                                                    // 이 기사에서 target(형태소 10개) 하나씩 돌아가면서 뽑아오고
             List<Subject> find = subjectRepository.findAllByTitleContaining(targetOne);             // Subject들 중에서 title에 해당 형태소(뽑아온 아이) 가지고 있는 얘 검색 => 이거 여기서 오류 뜬다
@@ -86,7 +100,8 @@ public class PostService {
             limits = Similarities.size();
         }
         for(int idx = 0 ; idx < limits;idx++){
-            suggestions.add(Similarities.get(idx).getSubject());
+            SubjectItem newItem = new SubjectItem(Similarities.get(idx).getSubject(), Similarities.get(idx).getSubject().getPosts());
+            suggestions.add(newItem);
         }
         return suggestions;
     }
@@ -129,13 +144,14 @@ public class PostService {
 //        }
         return postId;
     }
+
     @Transactional
     public List<KindsResponseDto> findAllByKinds(){
-        String [] kind = {"정치","연애","IT","경제"};
+        String [] kind = {"경제","스포츠","사회","증시","IT", "연애"};
         List<KindsResponseDto> resultSet = new LinkedList<>();
         for (int idx = 0; idx < kind.length; idx++){
             List<Post> lists = postRepository.findAllByKindsEquals(idx);
-            KindsResponseDto kindsResponseDto = new KindsResponseDto(kind[idx],lists);
+            KindsResponseDto kindsResponseDto = new KindsResponseDto(idx,lists);
             resultSet.add(kindsResponseDto);
         }
         return resultSet;
@@ -188,7 +204,7 @@ public class PostService {
         }
         else {
             for (Subject subject : subjects) {
-                SubjectListResponseDto listResponseDto= new SubjectListResponseDto(subject.getTitle(), subject.getPosts());
+                SubjectListResponseDto listResponseDto= new SubjectListResponseDto(subject.getSubjectId(), subject.getTitle(), subject.getPosts());
                 if (listResponseDto.getPosts().size() != 0){
                     subjectListResponseDto.add(listResponseDto);
                 }
