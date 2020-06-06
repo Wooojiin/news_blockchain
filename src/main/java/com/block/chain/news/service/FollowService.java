@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class FollowService {
@@ -24,14 +26,35 @@ public class FollowService {
         User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
 
-//        followRepository.save(Follow.builder()
-//            .fromUser(fromUser)
-//            .toUser(toUser)
-//            .build()))
-        followRepository.save(Follow.builder()
-        .fromUser(toUser)
-        .toUser(fromUser)
-        .build());
+        List<String> following = new FollowResponseDto(fromUser).getFollowing();
+
+        if(!following.contains(requestDto.getToUserEmail())){
+            followRepository.save(Follow.builder()
+                    .fromUser(toUser)
+                    .toUser(fromUser)
+                    .build());
+        }
+
+        return toUser.getEmail();
+    }
+
+    @Transactional
+    public String unFollow(FollowRequestDto requestDto){
+        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+
+        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+
+        List<String> following = new FollowResponseDto(fromUser).getFollowing();
+
+        if(following.contains(requestDto.getToUserEmail())){
+            Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));;
+
+            followRepository.delete(follow);
+        }
+
         return toUser.getEmail();
     }
 

@@ -47,4 +47,11 @@ public class UserApiController {
         return new ResponseEntity<FollowResponseDto>(followService.GetFollow(email), HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/v1/user/unFollow")
+    public ResponseEntity<String> unFollow(@RequestBody FollowRequestDto requestDto){
+        log.info("UnFollow");
+
+        return new ResponseEntity<String>(followService.unFollow(requestDto), HttpStatus.OK);
+    }
+
 }
