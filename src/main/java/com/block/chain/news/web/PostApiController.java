@@ -27,6 +27,11 @@ public class PostApiController {
         log.info("getList");
         return new ResponseEntity<List<PostEveryResponseDto>>(postService.findAllDesc(),HttpStatus.OK);
     }
+
+    @GetMapping("/api/v1/posts/desc")
+    public ResponseEntity<List<PostEveryResponseDto>> getDesc(){
+        return new ResponseEntity<List<PostEveryResponseDto>>(postService.findRecent(), HttpStatus.OK);
+    }
     @PutMapping("/api/v1/posts/update/{postId}")
     public ResponseEntity<Long> postUpdate(@PathVariable Long postId,
                                            @RequestBody PostUpdateDto postUpdateDto){
@@ -86,11 +91,7 @@ public class PostApiController {
     public ResponseEntity<List<SubjectListResponseDto>> getSubject(){
         return new ResponseEntity<List<SubjectListResponseDto>>(postService.getSubject(), HttpStatus.OK);
     }
-//    @GetMapping("/api/v1/posts/following/{email}")
-//    public ResponseEntity<List<FollowingPostResponseDto>> getFollowers(@PathVariable String email){
-//        return new ResponseEntity<List<FollowingPostResponseDto>>(postService.getFollowers(email),HttpStatus.OK);
-//    }
-
+    
     @GetMapping("/api/v1/posts/following/{email}")
     public ResponseEntity<List<FollowerPostResponseDto>> getFollowers(@PathVariable String email){
         return new ResponseEntity<List<FollowerPostResponseDto>>(postService.getFollowersGroup(email), HttpStatus.OK);

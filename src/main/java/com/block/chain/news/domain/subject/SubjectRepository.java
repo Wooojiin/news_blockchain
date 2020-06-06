@@ -10,4 +10,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long>, Subject
 
     Optional<Subject> findByTitle(String title);
     List<Subject> findAllByTitleContaining(String title);
+
+
 }

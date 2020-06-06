@@ -16,7 +16,6 @@ public class PostResponseDto {
     private String state;
     private String [] topic;
     private String [] selected;
-//    private List<SubjectItem> recommendations;
     private Subject subject;
     private int kinds;
     private String banner;
@@ -35,7 +34,6 @@ public class PostResponseDto {
         this.subject = entity.getSubject();
         this.kinds = entity.getKinds();
         this.banner = entity.getBanner();
-//        this.recommendations = recommendations;
         this.created = entity.getCreateDate();
         if(entity.getSubject() != null){
             this.simmilar = entity.getSubject().getPosts();

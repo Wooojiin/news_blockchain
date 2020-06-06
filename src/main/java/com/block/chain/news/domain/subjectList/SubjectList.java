@@ -21,12 +21,7 @@ public class SubjectList extends BaseTimeEntity {
 
     @Column(nullable=false)
     private Long subjectId;
-    //일단 이거 ManyToMany같은데 보류
 
-
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private User user;
     @Column(nullable=false)
     private Long postId;
 

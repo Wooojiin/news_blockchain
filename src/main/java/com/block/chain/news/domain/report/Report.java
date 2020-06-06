@@ -20,7 +20,6 @@ public class    Report extends BaseTimeEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long reportId;
 
-//    @ManyToOne(cascade= CascadeType.ALL)   //이거 맞냐?
     @OneToOne
     private Post post;
 

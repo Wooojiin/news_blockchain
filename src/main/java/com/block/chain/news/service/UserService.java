@@ -12,9 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final FabricCCService fabricCCService;
 
     @Transactional
     public String save(UserSaveRequestDto requestDto){
+//        try{
+//            User user = userRepository.findByEmail(requestDto.getEmail())
+//                    .orElseThrow(() -> new IllegalArgumentException("신규 회원"));
+//        } catch (Exception e){
+//            fabricCCService.registerUser(requestDto.getEmail(), requestDto.getRole());
+//        }
+
         return userRepository.save(requestDto.toEntity()).getEmail();
     }
 

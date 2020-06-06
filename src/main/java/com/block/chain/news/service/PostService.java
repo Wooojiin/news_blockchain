@@ -34,15 +34,13 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostListRepository postListRepository;
     private final SubjectRepository subjectRepository;
-    private final SubjectListRepository subjectListRepository;
-    private final FollowService followService;
-    private final FollowRepository followRepository;
+
 
     private final FabricCCService fabricCCService;
 
     @Transactional(readOnly = true)
     public List<PostEveryResponseDto> findAllDesc(){
-        List<Post> postList =postRepository.findAll();
+        List<Post> postList =postRepository.findAllByStateNot("SAVE");
         List<PostEveryResponseDto> postResponseDto = new LinkedList<>();
         for (Post post : postList){
             PostEveryResponseDto postDto = new PostEveryResponseDto(post);
@@ -51,14 +49,18 @@ public class PostService {
         return postResponseDto;
     }
 
+    public List<PostEveryResponseDto> findRecent(){
+        List<Post> recentPosts = postRepository.findAllByOrderByPostIdDesc();
+        List<PostEveryResponseDto> resultSet = new LinkedList<>();
+        int n = recentPosts.size() >= 5? 5 : recentPosts.size();
+        for (int i = 0; i <n; i++) {
+            resultSet.add(new PostEveryResponseDto(recentPosts.get(i)));
+        }
+        return resultSet;
+    }
     public PostResponseDto findById(Long postId){
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
-        //List<Topic> topics = topicRepository.findByPostsDesc(post);     //=> 이거 스트링 값으로 바꿔야 한다
-//        List<SubjectItem> suggestions = new LinkedList<>();
-//        if (post.getState().equals("SAVE")){
-//            suggestions = suggestion(postId);
-//        }
         return new PostResponseDto(post);
     }
 
@@ -67,8 +69,8 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() ->new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
         post.updatePost(postUpdateDto);
         return post.getPostId();
-
     }
+
 
     @Transactional
     public SuggestionResponseDto getSuggestion(Long postId){
@@ -76,35 +78,24 @@ public class PostService {
         return new SuggestionResponseDto(suggestions);
     }
 
-    @Transactional              //이게 유사한 기사 추천해주는 부분
+    @Transactional
     public List<SubjectItem> suggestion(Long postId) {
         String target = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException( "잘못 보냄!"))
-                .getTopics();                             //찾고자 하는 기사의 형태소 가져와서
-        String[] targetList = target.split(",");                                           // 배열로 만들고
+                .getTopics();
+        String[] targetList = target.split(",");
         List<SubjectItem> suggestions = new LinkedList<>();
-        List<Subject> subjects = new LinkedList<>();
-        for (String targetOne : targetList) {                                                    // 이 기사에서 target(형태소 10개) 하나씩 돌아가면서 뽑아오고
-            List<Subject> find = subjectRepository.findAllByTitleContaining(targetOne);             // Subject들 중에서 title에 해당 형태소(뽑아온 아이) 가지고 있는 얘 검색 => 이거 여기서 오류 뜬다
-            for (Subject one : find) {                                                               //subject 가지고 있는 아이들 중에서
-                if (!subjects.contains(one)) {                                                                  // 추가 안 되어 있으면
-                    subjects.add(one);                                                                          //Subjects에 추가
-                }
-            }
-        }
+        List<Subject> subjects = subjectRepository.findByTopics(target);
         List<SuggestionList> Similarities = new LinkedList<>();
         for (Subject subject: subjects) {
-            int current = getSimilarity(target, subject.getTitle());            //유사도 계산해서
+            int current = getSimilarity(target, subject.getTitle());
             SuggestionList newOne = new SuggestionList(subject, current);                                                                    // Array에 다 넣고(index, current값)
-            Similarities.add(newOne);                                           // 정렬해서
-        }                                                                       // current낮은 순으로 3개 뽑아서
-        Collections.sort(Similarities);
-        int limits = 0;
-        if (Similarities.size() >= 3){
-            limits = 3;
-        }else{
-            limits = Similarities.size();
+            Similarities.add(newOne);
         }
+        Collections.sort(Similarities);
+
+        int limits = Similarities.size() >= 3 ? 3 : Similarities.size();
+
         for(int idx = 0 ; idx < limits;idx++){
             SubjectItem newItem = new SubjectItem(Similarities.get(idx).getSubject(), Similarities.get(idx).getSubject().getPosts());
             suggestions.add(newItem);
@@ -112,7 +103,6 @@ public class PostService {
         return suggestions;
     }
 
-    //쉽게 생각해서 s1의 각 값들이 s2에 몇개나 들어가 있나 count => 유사도
     public int getSimilarity(String s1, String s2){
         String [] target = s1.split(",");
         int result = 0;
@@ -135,28 +125,14 @@ public class PostService {
                 .postId(postId)
                 .build();
         postListRepository.save(postList);
-//        String topics = post.getSelects();
-//        Optional<Subject> subject = subjectRepository.findByTitle(topics);
-//        //여기서 subject 있는지 없는지 어떻게 판단해야하지..?
-//        if (subject.isPresent()){
-//            subject.get().addPost(post);
-//        }else{
-//            List<Post> lists = new LinkedList<>();
-//            lists.add(post);
-//            Subject.builder()
-//                    .posts(lists)
-//                    .title(topics)
-//                    .build();
-//        }
         return postId;
     }
 
     @Transactional
     public List<KindsResponseDto> findAllByKinds(){
-        String [] kind = {"경제","스포츠","사회","증시","IT", "연애"};
         List<KindsResponseDto> resultSet = new LinkedList<>();
-        for (int idx = 0; idx < kind.length; idx++){
-            List<Post> lists = postRepository.findAllByKindsEquals(idx);
+        for (int idx = 0; idx < 6; idx++){
+            List<Post> lists = postRepository.findAllByKindsEqualsAndStateNot(idx,"SAVE");
             KindsResponseDto kindsResponseDto = new KindsResponseDto(idx,lists);
             resultSet.add(kindsResponseDto);
         }
@@ -172,7 +148,7 @@ public class PostService {
             sb.append(one);
             sb.append(',');
         }
-        post.updateState("Started");
+        post.updateState("DEPLOYED");
         post.updateSelect(sb.toString());
         if (subjectId == -1){
             List<Post> newLists = new LinkedList<>();
@@ -202,7 +178,6 @@ public class PostService {
     @Transactional
     public List<SubjectListResponseDto> getSubject(){
         List<Subject> subjects = subjectRepository.findAll();
-        List<Post> postLists = new LinkedList<>();
         List<SubjectListResponseDto> subjectListResponseDto = new LinkedList<>();
         if (subjects.isEmpty()){
             return subjectListResponseDto;
@@ -219,14 +194,11 @@ public class PostService {
     }
 
     public PostListResponseDto findByUserEmail(String userEmail) {
-//        User user=userRepository.findByEmail(userEmail).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
         List<Post> posts = postRepository.findAllByAuthor(userEmail);
         List<Post> savedPost = new LinkedList<>();
         List<Post> otherPost = new LinkedList<>();
         for (Post post : posts){
             if (post.getState().equals("SAVE")){
-//                PostListResponseDto postListResponseDto = new PostListResponseDto(post);
-//                result.add(postListResponseDto);
                 savedPost.add(post);
             }
             else{
@@ -236,7 +208,6 @@ public class PostService {
         PostListResponseDto result = new PostListResponseDto(savedPost, otherPost);
         return result;
     }
-
 
     public List<FollowingPostResponseDto> getFollowers(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다."));

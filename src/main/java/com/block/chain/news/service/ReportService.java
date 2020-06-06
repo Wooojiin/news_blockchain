@@ -43,9 +43,7 @@ public class ReportService {
     public Long report(Long postId, String userEmail, String contents){
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
-//        User user = userRepository.findByEmail(userEmail)
-//                .orElseThrow(() -> new IllegalArgumentException("뭔가 잘못 되었습니다"));              //이건 왜 넣어 놨니?
-        post.updateState("Reported");
+        post.updateState("REPORTED");
         Report report = Report.builder()
                 .post(post)
                 .reporter(userEmail)

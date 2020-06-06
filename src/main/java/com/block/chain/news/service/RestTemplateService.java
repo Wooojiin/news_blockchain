@@ -18,7 +18,7 @@ public class RestTemplateService {
     private final RestTemplate restTemplate;
 
     public String getMorpheme(String contents){
-        MultiValueMap<String, String> params =new LinkedMultiValueMap<>(); // 이런식으로 하면 되나?
+        MultiValueMap<String, String> params =new LinkedMultiValueMap<>();
         params.add("text", contents);
         ResponseEntity<String[]> response = restTemplate.postForEntity("http://k02b2041.p.ssafy.io:8197/api/morpheme",params,String[].class);
         List<String> result = Arrays.asList(response.getBody());
