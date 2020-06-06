@@ -49,6 +49,15 @@ public class PostService {
         return postResponseDto;
     }
 
+    public List<PostEveryResponseDto> findByTitle(String words){
+        List<PostEveryResponseDto> resultSet = new LinkedList<>();
+        List<Post> posts = postRepository.findAllByTitleContaining(words);
+        for (Post post: posts){
+            resultSet.add(new PostEveryResponseDto(post));
+        }
+        return resultSet;
+    }
+
     public List<PostEveryResponseDto> findRecent(){
         List<Post> recentPosts = postRepository.findAllByOrderByPostIdDesc();
         List<PostEveryResponseDto> resultSet = new LinkedList<>();

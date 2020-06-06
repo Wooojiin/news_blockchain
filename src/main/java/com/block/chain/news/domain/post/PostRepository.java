@@ -22,6 +22,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
     List<Post> findAllByStateNot(String state);
 
+    List<Post> findAllByTitleContaining(String title);
     @Query("SELECT p FROM Post p where not (p.state = 'SAVE') ORDER BY p.postId DESC ")
     List<Post> findAllByOrderByPostIdDesc();
 }
