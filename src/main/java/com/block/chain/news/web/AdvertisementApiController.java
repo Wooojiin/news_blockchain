@@ -43,4 +43,5 @@ public class AdvertisementApiController {
         return new ResponseEntity<List<AdvertisementListResponseDto>>(advertisementService.findByUser(email), HttpStatus.OK);
     }
 
+
 }

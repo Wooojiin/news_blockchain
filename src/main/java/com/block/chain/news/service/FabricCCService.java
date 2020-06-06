@@ -66,7 +66,6 @@ public class FabricCCService {
 
     private boolean requestToLedger(String fcn, String[] args){
         try {
-
             TransactionProposalRequest request = fabClient.getInstance().newTransactionProposalRequest();
             ChaincodeID ccid = ChaincodeID.newBuilder().setName(CHAINCODE_NAME).build();
             request.setChaincodeID(ccid);
@@ -86,7 +85,6 @@ public class FabricCCService {
             Iterator<String> mapIter = tm2.keySet().iterator();
 
             while (mapIter.hasNext()) {
-
                 String key = mapIter.next();
                 byte[] value = tm2.get(key);
             }
@@ -103,14 +101,11 @@ public class FabricCCService {
             return true;
 
         } catch (Exception e) {
-
             return false;
-
         }
     }
 
     private Collection<ProposalResponse> queryToLedger(String[] args){
-
         try{
             String[] args1 = args;
             Collection<ProposalResponse> responses1Query = channelClient.queryByChainCode(CHAINCODE_NAME, "query", args1);
@@ -123,7 +118,6 @@ public class FabricCCService {
 
     private void loadChannel() {
         // TODO
-
         try {
             Util.cleanUp();
             String caUrl = CA_SERVER_URL;
@@ -158,7 +152,6 @@ public class FabricCCService {
             channel.addOrderer(orderer);
             channel.initialize();
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,21 +159,21 @@ public class FabricCCService {
 
     //User regi, query update
     //registerUser args[0]: userID, args[1]: role
-    public boolean registerUser(String userID, String role) {
+    public boolean registerUser(String userId, String role) {
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "registerUser";
-        String[] args = {userID, role};;
+        String[] args = {userId, role};;
         return requestToLedger(fcn, args);
     }
 
-    public FabricUser queryUser(String userID) {
+    public FabricUser queryUser(String userId) {
         if(fabClient == null) {
             loadChannel();
         }
         try{
-            String[] args = { "user",userID };
+            String[] args = {"user", userId};
             Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
             for (ProposalResponse pres : responses1Query) {
@@ -199,26 +192,26 @@ public class FabricCCService {
 
     //News regi, query update, delete
     //args[0]: NwesID, args[1]: userID, args[2]:subject, args[3]: content
-    public boolean registerNews(String NewsID, String userID, String subject, String content) {
+    public boolean registerNews(String newsId, String userId, String subject, String content) {
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "registerNews";
-        String[] args = {NewsID, userID, subject, content};;
+        String[] args = {newsId, userId, subject, content};;
         return requestToLedger(fcn, args);
     }
-    public FabricNews queryNews(String newsID) {
+
+    public FabricNews queryNews(String newsId) {
         if(fabClient == null) {
             loadChannel();
         }
         try{
-            String[] args = { "news",newsID };
+            String[] args = {"news", newsId };
             Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
             for (ProposalResponse pres : responses1Query) {
                 String stringResponse = new String(pres.getChaincodeActionResponsePayload());
                 JsonElement jsonElement = jsonParser.parse(stringResponse);
-                String newsId = jsonElement.getAsJsonObject().get("newsID").toString();
                 String userId = jsonElement.getAsJsonObject().get("userID").toString();
                 String subject = jsonElement.getAsJsonObject().get("subject").toString();
                 String content = jsonElement.getAsJsonObject().get("content").toString();
@@ -229,72 +222,77 @@ public class FabricCCService {
         }
         return null;
     }
-    public boolean updateNews(String NewsID, String userID, String subject, String content){
+
+    public boolean updateNews(String newsId, String userId, String subject, String content){
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "updateNews";
-        String[] args = {NewsID, userID, subject, content};;
+        String[] args = {newsId, userId, subject, content};;
         return requestToLedger(fcn, args);
     }
-    public boolean deleteNews(String NewsID){
+
+    public boolean deleteNews(String newsId){
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "deleteNews";
-        String[] args = {NewsID};;
+        String[] args = {newsId};;
         return requestToLedger(fcn, args);
     }
+
     //AD regi, query //registerAdvertisement
     //args[0]: AdvertisementID, args[1]: UserID, args[2]: amount, args[3] : months
-    public boolean registerAD(String ADID,String UserID, String amount, String months){
+    public boolean registerAD(String adId,String userId, String amount, String months){
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "registerAdvertisement";
-        String[] args = {ADID,UserID, amount, months};
+        String[] args = {adId, userId, amount, months};
         return requestToLedger(fcn, args);
     }
-    public FabricAD queryAD(String ADID) {
+
+    public FabricAD queryAD(String adId) {
         if(fabClient == null) {
             loadChannel();
         }
         try{
-            String[] args = { "AD",ADID };
+            String[] args = { "AD", adId };
             Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
             for (ProposalResponse pres : responses1Query) {
                 String stringResponse = new String(pres.getChaincodeActionResponsePayload());
                 JsonElement jsonElement = jsonParser.parse(stringResponse);
-                String adID = jsonElement.getAsJsonObject().get("advertisementID").toString();
-                String userID = jsonElement.getAsJsonObject().get("userID").toString();
+                String userId = jsonElement.getAsJsonObject().get("userID").toString();
                 String amount = jsonElement.getAsJsonObject().get("amount").toString();
                 String months = jsonElement.getAsJsonObject().get("months").toString();
-                return new FabricAD(adID,userID,amount,months);
+                return new FabricAD(adId,userId,amount,months);
             }
         }catch (Exception e){
             log.error(e.toString());
         }
         return null;
     }
+
     //totalADAmountCalculation << 달시작할때
-    public boolean totalADAmountCalculation(String[] ADList){
+    public boolean totalADAmountCalculation(String[] adList){ // 광고 Id
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "totalADAmountCalculation";
-        String str = ADList[0];
+        String str = adList[0];
 
-        for(int i=1; i<ADList.length; i++){
-            str += ","+(ADList[i]);
+        for(int i=1; i<adList.length; i++){
+            str += ","+(adList[i]);
         }
         System.out.println(str);
         String[] args = {str};
         return requestToLedger(fcn, args);
     }
+
     //divisionAmount << 달 시작할때 이전 달의 수익 분
     //args[0] : newsID List or 기자ID List
-    public boolean divisionAmount(String[] reporterList){
+    public boolean divisionAmount(String[] reporterList){ // userId(email)
         if(fabClient == null){
             loadChannel();
         }
@@ -308,16 +306,18 @@ public class FabricCCService {
         String[] args = {str};
         return requestToLedger(fcn, args);
     }
+
     //clickNews
     //args[0]: UserID, args[1]: NewsID
-    public boolean clickNews(String UserID, String NewsID){
+    public boolean clickNews(String userId, String newsId){
         if(fabClient == null){
             loadChannel();
         }
         String fcn = "clickNews";
-        String[] args = {UserID, NewsID};
+        String[] args = {userId, newsId};
         return requestToLedger(fcn, args);
     }
+
     //totalAmount
     public FabricTotalAmount totalAmount(){
         if(fabClient == null) {
@@ -339,40 +339,42 @@ public class FabricCCService {
         }
         return null;
     }
+
     //userAccount
-    public FabricUserAccount userAccount(String UserID){
+    public FabricUserAccount userAccount(String userId){
         if(fabClient == null) {
             loadChannel();
         }
         try{
-            String[] args = { "userAccount", UserID };
+            String[] args = { "userAccount", userId };
             Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
             for (ProposalResponse pres : responses1Query) {
                 String stringResponse = new String(pres.getChaincodeActionResponsePayload());
                 JsonElement jsonElement = jsonParser.parse(stringResponse);
                 String amount = jsonElement.getAsJsonObject().get("amount").toString();
-                return new FabricUserAccount(UserID, amount);
+                return new FabricUserAccount(userId, amount);
             }
         }catch (Exception e){
             log.error(e.toString());
         }
         return null;
     }
+
     //userNewsView
-    public FabricUserView userNewsView(String UserID){
+    public FabricUserView userNewsView(String userId){
         if(fabClient == null) {
             loadChannel();
         }
         try{
-            String[] args = { "userNewsView", UserID };
+            String[] args = { "userNewsView", userId };
             Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
             for (ProposalResponse pres : responses1Query) {
                 String stringResponse = new String(pres.getChaincodeActionResponsePayload());
                 JsonElement jsonElement = jsonParser.parse(stringResponse);
                 String count = jsonElement.getAsJsonObject().get("count").toString();
-                return new FabricUserView(UserID, count);
+                return new FabricUserView(userId, count);
 
             }
         }catch (Exception e){
