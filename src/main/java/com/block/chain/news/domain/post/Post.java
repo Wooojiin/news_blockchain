@@ -62,8 +62,8 @@ public class Post extends BaseTimeEntity {
     public void updateState(String state) {
         this.state = state;
     }
-    public void updateSelect(String select){
-        this.selects = select;
+    public void updateKinds(int kinds){
+        this.kinds = kinds;
     }
     public void updateSubject(Subject subject){
         this.subject = subject;
