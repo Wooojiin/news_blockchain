@@ -11,15 +11,13 @@ public class PostSaveRequestDto {
     private String title;
     private String content;
     private String author;
-    private int kinds;
     private String banner;
 
     @Builder
-    public PostSaveRequestDto(String title,String content, String author, int kinds, String banner){
+    public PostSaveRequestDto(String title,String content, String author,String banner){
         this.title = title;
         this.content = content;
         this.author = author;
-        this.kinds = kinds;
         this.banner = banner;
     }
 
@@ -29,8 +27,8 @@ public class PostSaveRequestDto {
                 .content(this.content)
                 .author(this.author)
                 .topics(words)
+                .kinds(-1)
                 .banner(this.banner)
-                .kinds(this.kinds)
                 .state("SAVE")
                 .build();
     }

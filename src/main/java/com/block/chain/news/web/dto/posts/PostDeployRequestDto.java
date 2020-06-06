@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class PostDeployRequestDto {
-    private String [] selected;
+    private int kinds;
     private Long subjectId;
 
     @Builder
-    public PostDeployRequestDto(String[] selected, Long subjectId){
-        this.selected = selected;
+    public PostDeployRequestDto(int kinds, Long subjectId){
+        this.kinds = kinds;
         this.subjectId = subjectId;
     }
 }

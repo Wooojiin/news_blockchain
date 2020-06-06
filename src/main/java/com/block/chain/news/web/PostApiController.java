@@ -79,7 +79,7 @@ public class PostApiController {
     public ResponseEntity<Long> deploy(@PathVariable Long postId,
                                        @RequestBody PostDeployRequestDto postDeployRequestDto) throws Exception{
         log.info("subjectId : {}", postDeployRequestDto.getSubjectId());
-        return new ResponseEntity<Long>(postService.deploy(postId, postDeployRequestDto.getSelected(), postDeployRequestDto.getSubjectId()),HttpStatus.OK);
+        return new ResponseEntity<Long>(postService.deploy(postId, postDeployRequestDto.getKinds(), postDeployRequestDto.getSubjectId()),HttpStatus.OK);
     }
 
     @DeleteMapping("/api/v1/posts/{postId}")
