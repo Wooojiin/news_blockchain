@@ -5,9 +5,11 @@ import com.block.chain.news.domain.user.UserRepository;
 import com.block.chain.news.web.dto.user.UserResponseDto;
 import com.block.chain.news.web.dto.user.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -16,13 +18,12 @@ public class UserService {
 
     @Transactional
     public String save(UserSaveRequestDto requestDto){
-//        try{
-//            User user = userRepository.findByEmail(requestDto.getEmail())
-//                    .orElseThrow(() -> new IllegalArgumentException("신규 회원"));
-//        } catch (Exception e){
+        try{
+            User user = userRepository.findByEmail(requestDto.getEmail())
+                    .orElseThrow(() -> new IllegalArgumentException("신규 회원"));
+        } catch (Exception e){
 //            fabricCCService.registerUser(requestDto.getEmail(), requestDto.getRole());
-//        }
-
+        }
         return userRepository.save(requestDto.toEntity()).getEmail();
     }
 

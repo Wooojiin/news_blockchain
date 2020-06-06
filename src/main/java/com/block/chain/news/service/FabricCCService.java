@@ -243,7 +243,7 @@ public class FabricCCService {
 
     //AD regi, query //registerAdvertisement
     //args[0]: AdvertisementID, args[1]: UserID, args[2]: amount, args[3] : months
-    public boolean registerAD(String adId,String userId, String amount, String months){
+    public boolean registerAD(String adId, String userId, String amount, String months){
         if(fabClient == null){
             loadChannel();
         }

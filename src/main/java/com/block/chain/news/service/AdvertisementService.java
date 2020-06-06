@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final UserRepository userRepository;
+    private final FabricCCService fabricCCService;
 
     public static final String SAVE_FOLDER = "/home/ubuntu/image/";
     public static final String IMAGE_URL = "http://k02b2041.p.ssafy.io:8080/image/";
@@ -57,8 +59,11 @@ public class AdvertisementService {
             saveUrl = IMAGE_URL + destinationImageName;
         }
         Advertisement advertisement = requestDto.toEntity(user, saveUrl);
+        Long adId = advertisementRepository.save(advertisement).getAdvertisementId();
 
-        return advertisementRepository.save(advertisement).getAdvertisementId();
+//        fabricCCService.registerAD(adId.toString(), user.getEmail(), requestDto.getPrice() + "", requestDto.getMonths() + "");
+
+        return adId;
     }
 
     @Transactional(readOnly = true)
@@ -70,5 +75,29 @@ public class AdvertisementService {
         return advertisementRepository.findAllByUser(user).stream()
                 .map(AdvertisementListResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public boolean totalAmount(){
+        List<Advertisement> advertisementList = advertisementRepository.findAllByEndDateAfter(LocalDate.now());
+
+//        log.info("ad num : {}", advertisementList.size());
+        String[] adList = new String[advertisementList.size()];
+
+        for (int i = 0; i <  advertisementList.size(); i++) {
+            adList[i] = advertisementList.get(i).getAdvertisementId().toString();
+        }
+        return fabricCCService.totalADAmountCalculation(adList);
+    }
+
+    public boolean divideAmount(){
+        List<User> userList = userRepository.findAllByRole("JOURNALIST");
+
+        String[] reporterList = new String[userList.size()];
+
+        for (int i = 0; i < userList.size(); i++) {
+            reporterList[i] = userList.get(i).getEmail();
+        }
+
+        return fabricCCService.divisionAmount(reporterList);
     }
 }

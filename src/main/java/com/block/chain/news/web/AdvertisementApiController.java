@@ -43,5 +43,21 @@ public class AdvertisementApiController {
         return new ResponseEntity<List<AdvertisementListResponseDto>>(advertisementService.findByUser(email), HttpStatus.OK);
     }
 
+    @GetMapping("/api/v1/fabric/totalAmount")
+    public ResponseEntity<String> totalAmount(){
+        if(advertisementService.totalAmount()){
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @GetMapping("/api/v1/fabric/divideAmount")
+    public ResponseEntity<String> divideAmount(){
+        if(advertisementService.divideAmount()){
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

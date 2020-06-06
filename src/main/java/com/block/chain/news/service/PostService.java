@@ -159,10 +159,12 @@ public class PostService {
                     .build();
             subjectRepository.save(newOne);
             post.updateSubject(newOne);
+//            fabricCCService.registerNews(postId + "", post.getAuthor(), newOne.getTitle(), post.getContent());
         }else{
             Subject oldOne = subjectRepository.findById(subjectId).orElseThrow(() -> new IllegalArgumentException("잘못된 호출"));
             oldOne.addPost(post);
             post.updateSubject(oldOne);
+//            fabricCCService.registerNews(postId + "", post.getAuthor(), oldOne.getTitle(), post.getContent());
         }
         return postId;
     }
