@@ -29,7 +29,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "fromUser")
+    @OneToMany(mappedBy = "fromUser", orphanRemoval = true)
     @JsonBackReference
     private List<Follow> follower;
 

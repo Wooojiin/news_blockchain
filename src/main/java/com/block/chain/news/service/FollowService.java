@@ -52,11 +52,11 @@ public class FollowService {
             Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
                     .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
             System.out.println("follow id : " + follow.getFollowId());
-//            followRepository.delete(follow);
-//            followRepository.deleteFollow(follow.getFollowId());
-            followRepository.deleteById(follow.getFollowId());
-        }
 
+            followRepository.deleteFollow(follow.getFollowId());
+//            followRepository.deleteById(follow.getFollowId());
+        }
+//        followRepository.deleteByFromUserAndToUser(fromUser, toUser);
         return toUser.getEmail();
     }
 
