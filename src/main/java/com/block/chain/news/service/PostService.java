@@ -285,6 +285,6 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() ->new IllegalArgumentException("잘못된 기사를 선택하셨습니다"));
 
-//        fabricCCService.clickNews(post.getAuthor(), postId.toString());
+        fabricCCService.clickNews(post.getAuthor(), postId.toString());
     }
 }
