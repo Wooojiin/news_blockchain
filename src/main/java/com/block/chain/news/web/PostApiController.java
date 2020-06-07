@@ -109,9 +109,9 @@ public class PostApiController {
         return new ResponseEntity<String>(naverAPIService.translation(text, inputLanguage, outputLanguage), HttpStatus.OK);
     }
 
-    @PutMapping("/api/v1/posts/views/{postId}")
-    public ResponseEntity<String> click(@PathVariable Long postId){
-        postService.click(postId);
+    @PutMapping("/api/v1/posts/views/{postId}/{userEmail}")
+    public ResponseEntity<String> click(@PathVariable Long postId, @PathVariable String userEmail){
+        postService.click(postId, userEmail);
         return new ResponseEntity<String>("click", HttpStatus.OK);
     }
 }
