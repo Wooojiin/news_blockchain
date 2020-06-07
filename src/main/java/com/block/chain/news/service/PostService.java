@@ -34,16 +34,26 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostListRepository postListRepository;
     private final SubjectRepository subjectRepository;
-
-
     private final FabricCCService fabricCCService;
 
+//    @Transactional(readOnly = true)
+//    public List<PostEveryResponseDto> findAllDesc(){
+//        List<Post> postList =postRepository.findAllByStateNot("SAVE");
+//        List<PostEveryResponseDto> postResponseDto = new LinkedList<>();
+//        for (Post post : postList){
+//            PostEveryResponseDto postDto = new PostEveryResponseDto(post);
+//            postResponseDto.add(postDto);
+//        }
+//        return postResponseDto;
+//    }
     @Transactional(readOnly = true)
-    public List<PostEveryResponseDto> findAllDesc(){
+    public List<PostFollowerCheckDto> findAllDesc(String email){
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
         List<Post> postList =postRepository.findAllByStateNot("SAVE");
-        List<PostEveryResponseDto> postResponseDto = new LinkedList<>();
+        List<String> followerList = new FollowResponseDto(user).getFollowing();
+        List<PostFollowerCheckDto> postResponseDto = new LinkedList<>();
         for (Post post : postList){
-            PostEveryResponseDto postDto = new PostEveryResponseDto(post);
+            PostFollowerCheckDto postDto = new PostFollowerCheckDto(post, followerList.contains(post.getAuthor()));
             postResponseDto.add(postDto);
         }
         return postResponseDto;
@@ -79,7 +89,6 @@ public class PostService {
         post.updatePost(postUpdateDto);
         return post.getPostId();
     }
-
 
     @Transactional
     public SuggestionResponseDto getSuggestion(Long postId){
