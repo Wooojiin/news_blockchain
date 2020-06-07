@@ -29,10 +29,6 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
-    public final ListPath<com.block.chain.news.domain.follow.Follow, com.block.chain.news.domain.follow.QFollow> follower = this.<com.block.chain.news.domain.follow.Follow, com.block.chain.news.domain.follow.QFollow>createList("follower", com.block.chain.news.domain.follow.Follow.class, com.block.chain.news.domain.follow.QFollow.class, PathInits.DIRECT2);
-
-    public final ListPath<com.block.chain.news.domain.follow.Follow, com.block.chain.news.domain.follow.QFollow> following = this.<com.block.chain.news.domain.follow.Follow, com.block.chain.news.domain.follow.QFollow>createList("following", com.block.chain.news.domain.follow.Follow.class, com.block.chain.news.domain.follow.QFollow.class, PathInits.DIRECT2);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 

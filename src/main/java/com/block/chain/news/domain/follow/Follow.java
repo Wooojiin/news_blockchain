@@ -20,18 +20,29 @@ public class Follow extends BaseTimeEntity {
     // from -> to   following
     // to -> from   follower
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private User fromUser;
+    @Column(nullable = false)
+    private String fromUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private User toUser;
+    @Column(nullable = false)
+    private String toUser;
 
     @Builder
-    public Follow(User fromUser, User toUser){
+    public Follow(String fromUser, String toUser){
         this.fromUser = fromUser;
         this.toUser = toUser;
-
     }
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private User fromUser;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private User toUser;
+//
+//    @Builder
+//    public Follow(User fromUser, User toUser){
+//        this.fromUser = fromUser;
+//        this.toUser = toUser;
+//    }
 }

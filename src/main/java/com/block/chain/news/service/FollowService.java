@@ -20,48 +20,62 @@ public class FollowService {
 
     @Transactional
     public String follow(FollowRequestDto requestDto){
-        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+//        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+//
+//        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getToUserEmail()));
 
-        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getToUserEmail()));
+//        List<String> following = followRepository.findAllBy
 
-        List<String> following = new FollowResponseDto(fromUser).getFollowing();
+//        List<Follow> following = followRepository.findAllByFromUser(requestDto.getFromUserEmail());
+//
+//        if(!following.contains(requestDto.getToUserEmail())){
+//            followRepository.save(Follow.builder()
+//                    .fromUser(requestDto.getFromUserEmail())
+//                    .toUser(requestDto.getToUserEmail())
+//                    .build());
+//        }
+        followRepository.save(Follow.builder()
+                .fromUser(requestDto.getFromUserEmail())
+                .toUser(requestDto.getToUserEmail())
+                .build());
 
-        if(!following.contains(requestDto.getToUserEmail())){
-            followRepository.save(Follow.builder()
-                    .fromUser(fromUser)
-                    .toUser(toUser)
-                    .build());
-        }
-
-        return toUser.getEmail();
+        return requestDto.getToUserEmail();
     }
 
     @Transactional
     public String unFollow(String fromUserEmail, String toUserEmail){
-        User fromUser = userRepository.findByEmail(fromUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
+//        User fromUser = userRepository.findByEmail(fromUserEmail)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
+//
+//        User toUser = userRepository.findByEmail(toUserEmail)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + toUserEmail));
+//
+//        List<String> following = new FollowResponseDto(fromUser).getFollowing();
 
-        User toUser = userRepository.findByEmail(toUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + toUserEmail));
-
-        List<String> following = new FollowResponseDto(fromUser).getFollowing();
-
-        if(following.contains(toUserEmail)){
-            Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
+//        if(following.contains(toUserEmail)){
+//            Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
+//                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
+//            System.out.println("follow id : " + follow.getFollowId());
+//
+//            followRepository.deleteFollow(follow.getFollowId());
+//        }
+        Follow follow = followRepository.findByFromUserAndToUser(fromUserEmail, toUserEmail)
                     .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
-            System.out.println("follow id : " + follow.getFollowId());
+        followRepository.deleteFollow(follow.getFollowId());
 
-            followRepository.deleteFollow(follow.getFollowId());
-        }
-        return toUser.getEmail();
+        return toUserEmail;
     }
 
     @Transactional
-    public FollowResponseDto GetFollow(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + email));
-        return new FollowResponseDto(user);
+    public FollowResponseDto GetFollow(String fromemail) {
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + email));
+
+        List<Follow> followings = followRepository.findAllByFromUser(fromemail);
+        List<Follow> followers = followRepository.findAllByToUser(fromemail);
+
+        return new FollowResponseDto(followers, followings);
     }
 }

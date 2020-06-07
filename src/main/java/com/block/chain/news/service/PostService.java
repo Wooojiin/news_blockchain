@@ -1,5 +1,6 @@
 package com.block.chain.news.service;
 
+import com.block.chain.news.domain.follow.Follow;
 import com.block.chain.news.domain.follow.FollowRepository;
 import com.block.chain.news.domain.postList.PostList;
 import com.block.chain.news.domain.postList.PostListRepository;
@@ -34,6 +35,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostListRepository postListRepository;
     private final SubjectRepository subjectRepository;
+    private final FollowRepository followRepository;
     private final FabricCCService fabricCCService;
 
 //    @Transactional(readOnly = true)
@@ -50,7 +52,11 @@ public class PostService {
     public List<PostFollowerCheckDto> findAllDesc(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
         List<Post> postList =postRepository.findAllByStateNot("SAVE");
-        List<String> followerList = new FollowResponseDto(user).getFollowing();
+
+        List<Follow> followings = followRepository.findAllByFromUser(email);
+        List<Follow> followers = followRepository.findAllByToUser(email);
+
+        List<String> followerList = new FollowResponseDto(followers, followings).getFollowing();
         List<PostFollowerCheckDto> postResponseDto = new LinkedList<>();
         for (Post post : postList){
             PostFollowerCheckDto postDto = new PostFollowerCheckDto(post, followerList.contains(post.getAuthor()));
@@ -228,7 +234,11 @@ public class PostService {
     public List<FollowingPostResponseDto> getFollowers(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다."));
         List<FollowingPostResponseDto> resultSet = new LinkedList<>();
-        List<String> followResponseDto = new FollowResponseDto(user).getFollowing();
+
+        List<Follow> followings = followRepository.findAllByFromUser(email);
+        List<Follow> followers = followRepository.findAllByToUser(email);
+
+        List<String> followResponseDto = new FollowResponseDto(followers, followings).getFollowing();
         for (String userEmail : followResponseDto){
             List<Post> posts = postRepository.findAllByAuthor(userEmail);
             FollowingPostResponseDto followingListResponseDto = new FollowingPostResponseDto(userEmail,posts);
@@ -239,7 +249,11 @@ public class PostService {
 
     public List<FollowerPostResponseDto> getFollowersGroup(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
-        List<String> followerList = new FollowResponseDto(user).getFollowing();
+
+        List<Follow> followings = followRepository.findAllByFromUser(email);
+        List<Follow> followers = followRepository.findAllByToUser(email);
+
+        List<String> followerList = new FollowResponseDto(followers, followings).getFollowing();
 
         List<Subject> subjectList = new LinkedList<>();
         List<List<Post>> postList = new LinkedList<>();
