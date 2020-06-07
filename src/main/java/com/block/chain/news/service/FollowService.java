@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,14 +21,26 @@ public class FollowService {
 
     @Transactional
     public String follow(FollowRequestDto requestDto){
-//        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
-//
-//        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getToUserEmail()));
+        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
 
-//        List<String> following = followRepository.findAllBy
+        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getToUserEmail()));
 
+
+        List<Follow> followings = followRepository.findAllByFromUser(requestDto.getFromUserEmail());
+        List<String> followingEmailList = new LinkedList<>();
+
+        for (Follow following : followings) {
+            followingEmailList.add(following.getToUser());
+        }
+
+        if(!followingEmailList.contains(requestDto.getToUserEmail())){
+            followRepository.save(Follow.builder()
+                    .fromUser(requestDto.getFromUserEmail())
+                    .toUser(requestDto.getToUserEmail())
+                    .build());
+        }
 //        List<Follow> following = followRepository.findAllByFromUser(requestDto.getFromUserEmail());
 //
 //        if(!following.contains(requestDto.getToUserEmail())){
@@ -36,22 +49,29 @@ public class FollowService {
 //                    .toUser(requestDto.getToUserEmail())
 //                    .build());
 //        }
-        followRepository.save(Follow.builder()
-                .fromUser(requestDto.getFromUserEmail())
-                .toUser(requestDto.getToUserEmail())
-                .build());
-
         return requestDto.getToUserEmail();
     }
 
     @Transactional
     public String unFollow(String fromUserEmail, String toUserEmail){
-//        User fromUser = userRepository.findByEmail(fromUserEmail)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
-//
-//        User toUser = userRepository.findByEmail(toUserEmail)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + toUserEmail));
-//
+        User fromUser = userRepository.findByEmail(fromUserEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
+
+        User toUser = userRepository.findByEmail(toUserEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + toUserEmail));
+
+        List<Follow> followings = followRepository.findAllByFromUser(fromUserEmail);
+        List<String> followingEmailList = new LinkedList<>();
+
+        for (Follow following : followings) {
+            followingEmailList.add(following.getToUser());
+        }
+
+        if(followingEmailList.contains(toUserEmail)){
+            Follow follow = followRepository.findByFromUserAndToUser(fromUserEmail, toUserEmail)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
+            followRepository.deleteFollow(follow.getFollowId());
+        }
 //        List<String> following = new FollowResponseDto(fromUser).getFollowing();
 
 //        if(following.contains(toUserEmail)){
@@ -61,9 +81,6 @@ public class FollowService {
 //
 //            followRepository.deleteFollow(follow.getFollowId());
 //        }
-        Follow follow = followRepository.findByFromUserAndToUser(fromUserEmail, toUserEmail)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
-        followRepository.deleteFollow(follow.getFollowId());
 
         return toUserEmail;
     }

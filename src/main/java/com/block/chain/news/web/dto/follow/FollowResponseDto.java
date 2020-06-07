@@ -25,11 +25,11 @@ public class FollowResponseDto {
 //        for (Follow followingUser : followings) {
 //            following.add(followingUser.getToUser().getEmail());
 //        }
-        for (Follow followerUser : followers){
-            follower.add(followerUser.getToUser());
+        for (Follow followerUser : followers){  // 내 아이디를 toUser로 찾아온것
+            follower.add(followerUser.getFromUser());
         }
-        for (Follow followingUser : followings){
-            following.add(followingUser.getFromUser());
+        for (Follow followingUser : followings){ // 내 아이디를 fromUser로 찾아온것
+            following.add(followingUser.getToUser());
         }
 
         this.follower = follower;
