@@ -18,6 +18,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,5 +100,17 @@ public class AdvertisementService {
         }
 
         return fabricCCService.divisionAmount(reporterList);
+    }
+
+    @Transactional
+    public List<AdvertisementListResponseDto> findValidAd(){
+        List<Advertisement> advertisementList = advertisementRepository.findAllByEndDateAfter(LocalDate.now());
+
+        List<AdvertisementListResponseDto> responseDtoList = new LinkedList<>();
+        for (Advertisement entity : advertisementList) {
+            responseDtoList.add(new AdvertisementListResponseDto(entity));
+        }
+
+        return responseDtoList;
     }
 }

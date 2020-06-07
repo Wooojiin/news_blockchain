@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -59,5 +60,12 @@ public class AdvertisementApiController {
         }else{
             return new ResponseEntity<String>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/api/v1/advertisement")
+    public ResponseEntity<List<AdvertisementListResponseDto>> getValidAd(){
+        log.info("getValidAd");
+
+        return new ResponseEntity<List<AdvertisementListResponseDto>>(advertisementService.findValidAd(), HttpStatus.OK);
     }
 }
