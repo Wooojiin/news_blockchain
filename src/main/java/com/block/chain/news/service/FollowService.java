@@ -39,24 +39,22 @@ public class FollowService {
     }
 
     @Transactional
-    public String unFollow(FollowRequestDto requestDto){
-        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+    public String unFollow(String fromUserEmail, String toUserEmail){
+        User fromUser = userRepository.findByEmail(fromUserEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
 
-        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+        User toUser = userRepository.findByEmail(toUserEmail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + toUserEmail));
 
         List<String> following = new FollowResponseDto(fromUser).getFollowing();
 
-        if(following.contains(requestDto.getToUserEmail())){
+        if(following.contains(toUserEmail)){
             Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
                     .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
             System.out.println("follow id : " + follow.getFollowId());
 
             followRepository.deleteFollow(follow.getFollowId());
-//            followRepository.deleteById(follow.getFollowId());
         }
-//        followRepository.deleteByFromUserAndToUser(fromUser, toUser);
         return toUser.getEmail();
     }
 

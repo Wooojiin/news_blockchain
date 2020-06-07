@@ -51,10 +51,10 @@ public class UserApiController {
     }
 
     @DeleteMapping("/api/v1/user/unFollow")
-    public ResponseEntity<String> unFollow(@RequestBody FollowRequestDto requestDto){
+    public ResponseEntity<String> unFollow(@RequestParam String fromUser, @RequestParam String toUser){
         log.info("UnFollow");
 
-        return new ResponseEntity<String>(followService.unFollow(requestDto), HttpStatus.OK);
+        return new ResponseEntity<String>(followService.unFollow(fromUser, toUser), HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/fabric/account/{email}")
