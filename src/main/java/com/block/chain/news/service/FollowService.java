@@ -24,7 +24,7 @@ public class FollowService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
 
         User toUser = userRepository.findByEmail(requestDto.getToUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getToUserEmail()));
 
         List<String> following = new FollowResponseDto(fromUser).getFollowing();
 
