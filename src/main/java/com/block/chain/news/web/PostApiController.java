@@ -111,7 +111,10 @@ public class PostApiController {
 
     @PutMapping("/api/v1/posts/views/{postId}/{userEmail}")
     public ResponseEntity<String> click(@PathVariable Long postId, @PathVariable String userEmail){
-        postService.click(postId, userEmail);
-        return new ResponseEntity<String>("click", HttpStatus.OK);
+        if(postService.click(postId, userEmail)){
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("Fail", HttpStatus.OK);
+        }
     }
 }
