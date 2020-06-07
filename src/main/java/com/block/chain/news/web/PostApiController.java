@@ -22,7 +22,7 @@ public class PostApiController {
     private final RestTemplateService restTemplateService;
     private final NaverAPIService naverAPIService;
 
-    @GetMapping("/api/v1/posts/{userEmail}")
+    @GetMapping("/api/v1/posts/EveryThing/{userEmail}")
     public ResponseEntity<List<PostFollowerCheckDto>> getList(String userEmail){
         log.info("getList");
         return new ResponseEntity<List<PostFollowerCheckDto>>(postService.findAllDesc(userEmail),HttpStatus.OK);
