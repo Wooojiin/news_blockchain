@@ -22,7 +22,7 @@ public class UserService {
             User user = userRepository.findByEmail(requestDto.getEmail())
                     .orElseThrow(() -> new IllegalArgumentException("신규 회원"));
         } catch (Exception e){
-//            fabricCCService.registerUser(requestDto.getEmail(), requestDto.getRole());
+            fabricCCService.registerUser(requestDto.getEmail(), requestDto.getRole());
         }
         return userRepository.save(requestDto.toEntity()).getEmail();
     }

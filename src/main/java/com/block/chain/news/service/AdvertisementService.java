@@ -62,7 +62,7 @@ public class AdvertisementService {
         Advertisement advertisement = requestDto.toEntity(user, saveUrl);
         Long adId = advertisementRepository.save(advertisement).getAdvertisementId();
 
-//        fabricCCService.registerAD(adId.toString(), user.getEmail(), requestDto.getPrice() + "", requestDto.getMonths() + "");
+        fabricCCService.registerAD(adId.toString(), user.getEmail(), requestDto.getPrice() + "", requestDto.getMonths() + "");
 
         return adId;
     }
