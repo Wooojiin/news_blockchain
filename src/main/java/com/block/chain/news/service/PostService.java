@@ -240,11 +240,12 @@ public class PostService {
     public List<FollowerPostResponseDto> getFollowersGroup(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
         List<String> followerList = new FollowResponseDto(user).getFollowing();
+
         List<Subject> subjectList = new LinkedList<>();
         List<List<Post>> postList = new LinkedList<>();
         List<FollowerPostResponseDto> resultSet = new LinkedList<>();
         for (String userEmail : followerList){                             //모든 Follower에 대하여
-            List<Post> posts = postRepository.findAllByAuthor(userEmail);       //해당 Follower가 작성한 Post 가져와서
+            List<Post> posts = postRepository.findAllByAuthorAndStateNot(userEmail,"SAVE");       //해당 Follower가 작성한 Post 가져와서
             for (Post post : posts){                                            //하나씩 비교하면서
                 if (! post.getState().equals("SAVE")){                          //SAVE 아니라면(임시저장 상태가 아니라면)
                     if (! subjectList.contains(post.getSubject())) {            //여태까지 찾았던 Subject가 아니라면

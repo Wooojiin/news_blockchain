@@ -30,8 +30,8 @@ public class FollowService {
 
         if(!following.contains(requestDto.getToUserEmail())){
             followRepository.save(Follow.builder()
-                    .fromUser(toUser)
-                    .toUser(fromUser)
+                    .fromUser(fromUser)
+                    .toUser(toUser)
                     .build());
         }
 
@@ -50,9 +50,11 @@ public class FollowService {
 
         if(following.contains(requestDto.getToUserEmail())){
             Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
-                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));;
-
-            followRepository.delete(follow);
+                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
+            System.out.println("follow id : " + follow.getFollowId());
+//            followRepository.delete(follow);
+//            followRepository.deleteFollow(follow.getFollowId());
+            followRepository.deleteById(follow.getFollowId());
         }
 
         return toUser.getEmail();

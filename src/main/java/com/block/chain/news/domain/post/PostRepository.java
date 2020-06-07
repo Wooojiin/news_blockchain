@@ -20,6 +20,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
     List<Post> findAllByAuthor(String author);
 
+    List<Post> findAllByAuthorAndStateNot(String author, String state);
     List<Post> findAllByStateNot(String state);
 
     List<Post> findAllByTitleContaining(String title);
