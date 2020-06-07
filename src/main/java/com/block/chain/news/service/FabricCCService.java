@@ -341,21 +341,21 @@ public class FabricCCService {
     }
 
     //userAccount
-    public FabricUserAccount userAccount(String userId){
-        if(fabClient == null) {
-            loadChannel();
-        }
-        try{
-            String[] args = { "userAccount", userId };
-            Collection<ProposalResponse> responses1Query = queryToLedger(args);
+            public FabricUserAccount userAccount(String userId){
+                if(fabClient == null) {
+                    loadChannel();
+                }
+                try{
+                    String[] args = { "userAccount", userId };
+                    Collection<ProposalResponse> responses1Query = queryToLedger(args);
 
-            for (ProposalResponse pres : responses1Query) {
-                String stringResponse = new String(pres.getChaincodeActionResponsePayload());
-                JsonElement jsonElement = jsonParser.parse(stringResponse);
-                String amount = jsonElement.getAsJsonObject().get("amount").toString();
-                return new FabricUserAccount(userId, amount);
-            }
-        }catch (Exception e){
+                    for (ProposalResponse pres : responses1Query) {
+                        String stringResponse = new String(pres.getChaincodeActionResponsePayload());
+                        JsonElement jsonElement = jsonParser.parse(stringResponse);
+                        String amount = jsonElement.getAsJsonObject().get("amount").toString();
+                        return new FabricUserAccount(userId, amount);
+                    }
+                }catch (Exception e){
             log.error(e.toString());
         }
         return null;

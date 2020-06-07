@@ -1,7 +1,9 @@
 package com.block.chain.news.web;
 
+import com.block.chain.news.service.FabricCCService;
 import com.block.chain.news.service.FollowService;
 import com.block.chain.news.service.UserService;
+import com.block.chain.news.web.dto.fabric.FabricUserAccount;
 import com.block.chain.news.web.dto.follow.FollowRequestDto;
 import com.block.chain.news.web.dto.follow.FollowResponseDto;
 import com.block.chain.news.web.dto.user.UserResponseDto;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiController {
     private final UserService userService;
     private final FollowService followService;
+    private final FabricCCService fabricCCService;
 
     @PostMapping("/api/v1/user")
     public ResponseEntity<String> save(@RequestBody UserSaveRequestDto requestDto){
@@ -52,6 +55,13 @@ public class UserApiController {
         log.info("UnFollow");
 
         return new ResponseEntity<String>(followService.unFollow(requestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/v1/fabric/account/{email}")
+    public ResponseEntity<FabricUserAccount> getAccount(@PathVariable String email){
+        log.info("Fabric Get User Account : {}", email);
+
+        return new ResponseEntity<FabricUserAccount>(fabricCCService.userAccount(email), HttpStatus.OK);
     }
 
 }

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class PostEveryResponseDto {
-    private Long id;
+    private Long postId;
     private String title;
     private String author;
     private String banner;
@@ -14,7 +14,7 @@ public class PostEveryResponseDto {
 
     @Builder
     public PostEveryResponseDto(Post entity){
-        this.id = entity.getPostId();
+        this.postId = entity.getPostId();
         this.title = entity.getTitle();
         this.author= entity.getAuthor();
         this.banner = entity.getBanner();
