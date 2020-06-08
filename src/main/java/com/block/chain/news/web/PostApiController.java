@@ -114,7 +114,7 @@ public class PostApiController {
         if(postService.click(postId, userEmail)){
             return new ResponseEntity<String>("Success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>("Fail", HttpStatus.OK);
+            return new ResponseEntity<String>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
