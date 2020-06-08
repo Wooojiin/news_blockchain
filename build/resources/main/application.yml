@@ -14,7 +14,7 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://k02b2041.p.ssafy.io:3306/test_aws?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mariadb://k02b2041.p.ssafy.io:3306/newslive?serverTimezone=UTC&characterEncoding=UTF-8
     username: ssafy
     password: ssafy
 

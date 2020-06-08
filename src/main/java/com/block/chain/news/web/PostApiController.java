@@ -83,7 +83,8 @@ public class PostApiController {
     public ResponseEntity<Long> deploy(@PathVariable Long postId,
                                        @RequestBody PostDeployRequestDto postDeployRequestDto) throws Exception{
         log.info("subjectId : {}", postDeployRequestDto.getSubjectId());
-        return new ResponseEntity<Long>(postService.deploy(postId, postDeployRequestDto.getKinds(), postDeployRequestDto.getSubjectId()),HttpStatus.OK);
+        return new ResponseEntity<Long>(postService.deploy(postId, postDeployRequestDto.getKinds(), postDeployRequestDto.getSubjectId(),postDeployRequestDto.getBanner()),HttpStatus.OK);
+
     }
 
     @DeleteMapping("/api/v1/posts/{postId}")
@@ -109,9 +110,12 @@ public class PostApiController {
         return new ResponseEntity<String>(naverAPIService.translation(text, inputLanguage, outputLanguage), HttpStatus.OK);
     }
 
-    @PutMapping("/api/v1/posts/views/{postId}")
-    public ResponseEntity<String> click(@PathVariable Long postId){
-        postService.click(postId);
-        return new ResponseEntity<String>("click", HttpStatus.OK);
+    @PutMapping("/api/v1/posts/views/{postId}/{userEmail}")
+    public ResponseEntity<String> click(@PathVariable Long postId, @PathVariable String userEmail){
+        if(postService.click(postId, userEmail)){
+            return new ResponseEntity<String>("Success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
