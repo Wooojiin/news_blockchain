@@ -53,15 +53,6 @@ public class FollowService {
     }
 
     @Transactional
-<<<<<<< HEAD
-    public String unFollow(FollowRequestDto requestDto){
-        User fromUser = userRepository.findByEmail(requestDto.getFromUserEmail())   //Follow해지하는 사람
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
-
-        User toUser = userRepository.findByEmail(requestDto.getToUserEmail())           //Follow 해지할 사람
-                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + requestDto.getFromUserEmail()));
-        List<String> following = new FollowResponseDto(fromUser).getFollowing();
-=======
     public String unFollow(String fromUserEmail, String toUserEmail){
         User fromUser = userRepository.findByEmail(fromUserEmail)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromUserEmail));
@@ -71,7 +62,6 @@ public class FollowService {
 
         List<Follow> followings = followRepository.findAllByFromUser(fromUserEmail);
         List<String> followingEmailList = new LinkedList<>();
->>>>>>> 6f52e01c217581ab96e4c6073db97366cacd1c68
 
         for (Follow following : followings) {
             followingEmailList.add(following.getToUser());
