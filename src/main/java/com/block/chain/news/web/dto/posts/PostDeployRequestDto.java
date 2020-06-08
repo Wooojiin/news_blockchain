@@ -7,10 +7,11 @@ import lombok.Getter;
 public class PostDeployRequestDto {
     private int kinds;
     private Long subjectId;
-
+    private String banner;
     @Builder
-    public PostDeployRequestDto(int kinds, Long subjectId){
+    public PostDeployRequestDto(int kinds, Long subjectId,String banner){
         this.kinds = kinds;
         this.subjectId = subjectId;
+        this.banner = banner;
     }
 }

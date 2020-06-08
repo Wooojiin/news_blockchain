@@ -59,6 +59,7 @@ public class Post extends BaseTimeEntity {
         this.banner = banner;
     }
 
+    public void updateBanner(String banner){this.banner = banner;}
     public void updateState(String state) {
         this.state = state;
     }

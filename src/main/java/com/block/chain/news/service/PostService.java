@@ -164,12 +164,13 @@ public class PostService {
     }
 
     @Transactional
-    public Long deploy(Long postId, int kinds, Long subjectId){
+    public Long deploy(Long postId, int kinds, Long subjectId, String banner){
         Post post = postRepository.findById(postId)
                 .orElseThrow( () -> new IllegalArgumentException("잘못된 기사를 선택 하셨습니다"));
         StringBuilder sb = new StringBuilder();
         post.updateState("DEPLOYED");
         post.updateKinds(kinds);
+        post.updateBanner(banner);
         if (subjectId == -1){
             List<Post> newLists = new LinkedList<>();
             newLists.add(post);
