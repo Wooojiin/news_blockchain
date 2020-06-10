@@ -69,7 +69,6 @@ public class NaverAPIService {
             JSONObject jsonObject = new JSONObject(jsonString);
 
             String result = jsonObject.getJSONObject("message").getJSONObject("result").getString("translatedText");
-//            return response.toString();
             return  result;
 
         } catch (Exception e) {

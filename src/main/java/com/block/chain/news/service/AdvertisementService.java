@@ -81,7 +81,6 @@ public class AdvertisementService {
     public boolean totalAmount(){
         List<Advertisement> advertisementList = advertisementRepository.findAllByEndDateAfter(LocalDate.now());
 
-//        log.info("ad num : {}", advertisementList.size());
         String[] adList = new String[advertisementList.size()];
 
         for (int i = 0; i <  advertisementList.size(); i++) {

@@ -41,14 +41,6 @@ public class FollowService {
                     .toUser(requestDto.getToUserEmail())
                     .build());
         }
-//        List<Follow> following = followRepository.findAllByFromUser(requestDto.getFromUserEmail());
-//
-//        if(!following.contains(requestDto.getToUserEmail())){
-//            followRepository.save(Follow.builder()
-//                    .fromUser(requestDto.getFromUserEmail())
-//                    .toUser(requestDto.getToUserEmail())
-//                    .build());
-//        }
         return requestDto.getToUserEmail();
     }
 
