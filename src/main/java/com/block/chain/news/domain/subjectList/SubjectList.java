@@ -18,13 +18,11 @@ public class SubjectList extends BaseTimeEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long subjectListId;
 
-
     @Column(nullable=false)
     private Long subjectId;
 
     @Column(nullable=false)
     private Long postId;
-
 
     @Builder
     public SubjectList(Long subjectId, Long postId){

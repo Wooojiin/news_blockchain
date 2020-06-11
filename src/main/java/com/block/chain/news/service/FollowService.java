@@ -64,23 +64,14 @@ public class FollowService {
                     .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
             followRepository.deleteFollow(follow.getFollowId());
         }
-//        List<String> following = new FollowResponseDto(fromUser).getFollowing();
-
-//        if(following.contains(toUserEmail)){
-//            Follow follow = followRepository.findByFromUserAndToUser(fromUser, toUser)
-//                    .orElseThrow(() -> new IllegalArgumentException("해당 팔로우 정보가 없습니다."));
-//            System.out.println("follow id : " + follow.getFollowId());
-//
-//            followRepository.deleteFollow(follow.getFollowId());
-//        }
 
         return toUserEmail;
     }
 
     @Transactional
     public FollowResponseDto GetFollow(String fromemail) {
-//        User user = userRepository.findByEmail(email)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + email));
+        User user = userRepository.findByEmail(fromemail)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. email =" + fromemail));
 
         List<Follow> followings = followRepository.findAllByFromUser(fromemail);
         List<Follow> followers = followRepository.findAllByToUser(fromemail);
