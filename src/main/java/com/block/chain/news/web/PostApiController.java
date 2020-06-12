@@ -32,15 +32,18 @@ public class PostApiController {
     public ResponseEntity<List<PostEveryResponseDto>> getDesc(){
         return new ResponseEntity<List<PostEveryResponseDto>>(postService.findRecent(), HttpStatus.OK);
     }
+
     @GetMapping("/api/v1/posts/find/{words}")
     public ResponseEntity<List<PostEveryResponseDto>> findByTitle(@PathVariable String words){
         return new ResponseEntity<List<PostEveryResponseDto>>(postService.findByTitle(words), HttpStatus.OK);
     }
+
     @PutMapping("/api/v1/posts/update/{postId}")
     public ResponseEntity<Long> postUpdate(@PathVariable Long postId,
                                            @RequestBody PostUpdateDto postUpdateDto){
         return new ResponseEntity<Long>(postService.updatePost(postId, postUpdateDto), HttpStatus.OK);
     }
+
     @GetMapping("/api/v1/posts/suggestion/{postId}")
     public SuggestionResponseDto getSuggestion(@PathVariable Long postId){
         return postService.getSuggestion(postId);
