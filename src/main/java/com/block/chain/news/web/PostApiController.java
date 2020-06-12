@@ -60,8 +60,6 @@ public class PostApiController {
         return new ResponseEntity<PostResponseDto>(postService.findById(postId), HttpStatus.OK);
     }
 
-
-
     @GetMapping("/api/v1/posts/kinds")
     public ResponseEntity<List<KindsResponseDto>> getKinds(){
         return new ResponseEntity<List<KindsResponseDto>>(postService.findAllByKinds(), HttpStatus.OK);

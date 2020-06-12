@@ -68,7 +68,7 @@ public class PostService {
     public List<PostEveryResponseDto> findRecent(){
         List<Post> recentPosts = postRepository.findAllByOrderByPostIdDesc();
         List<PostEveryResponseDto> resultSet = new LinkedList<>();
-        int n = recentPosts.size() >= 5? 5 : recentPosts.size();
+        int n = Math.min(recentPosts.size(), 5);
         for (int i = 0; i <n; i++) {
             resultSet.add(new PostEveryResponseDto(recentPosts.get(i)));
         }
@@ -147,7 +147,7 @@ public class PostService {
     public List<KindsResponseDto> findAllByKinds(){
         List<KindsResponseDto> resultSet = new LinkedList<>();
         for (int idx = 0; idx < 6; idx++){
-            List<Post> lists = postRepository.findAllByKindsEqualsAndStateNot(idx,"SAVE");
+            List<Post> lists = postRepository.findAllByKindsEqualsAndStateNotOrderByPostIdDesc(idx,"SAVE");
             KindsResponseDto kindsResponseDto = new KindsResponseDto(idx,lists);
             resultSet.add(kindsResponseDto);
         }
