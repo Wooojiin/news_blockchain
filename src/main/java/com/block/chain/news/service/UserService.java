@@ -33,4 +33,24 @@ public class UserService {
 
         return new UserResponseDto(user);
     }
+
+    @Transactional
+    public boolean isNewUser(String email){
+        int num = userRepository.countByEmail(email);
+
+        if(num == 0)
+            return false;   //  신규 회원
+        else
+            return true;
+    }
+
+    @Transactional
+    public String updateRole(String email, String role){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다. Email=" + email));
+
+        user.updateRole(role);
+
+        return email;
+    }
 }

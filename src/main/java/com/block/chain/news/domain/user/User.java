@@ -49,4 +49,8 @@ public class User extends BaseTimeEntity {
         this.picture = picture;
         this.role = role;
     }
+
+    public void updateRole(String role){
+        this.role = role;
+    }
 }

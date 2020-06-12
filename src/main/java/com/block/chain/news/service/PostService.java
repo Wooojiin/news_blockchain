@@ -58,6 +58,7 @@ public class PostService {
     public List<PostEveryResponseDto> findByTitle(String words){
         List<PostEveryResponseDto> resultSet = new LinkedList<>();
         List<Post> posts = postRepository.findAllByTitleContaining(words);
+
         for (Post post: posts){
             resultSet.add(new PostEveryResponseDto(post));
         }

@@ -65,4 +65,17 @@ public class UserApiController {
         return new ResponseEntity<FabricUserAccount>(fabricCCService.userAccount(email), HttpStatus.OK);
     }
 
+    @GetMapping("/api/v1/user/find/{email}")
+    public ResponseEntity<Boolean> isUser(@PathVariable String email){
+        log.info("is User : {}", email);
+        return new ResponseEntity<Boolean>(userService.isNewUser(email), HttpStatus.OK);
+    }
+
+    @PutMapping("/api/v1/user/role/{email}/{role}")
+    public ResponseEntity<String> updateRole(@PathVariable String email, @PathVariable String role){
+        log.info("updateRole  email : {} / role : {}", email, role);
+
+        return new ResponseEntity<String>(userService.updateRole(email, role), HttpStatus.OK);
+    }
+
 }
