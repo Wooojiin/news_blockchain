@@ -41,7 +41,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<PostFollowerCheckDto> findAllDesc(String email){
         User user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("잘못된 요청입니다"));
-        List<Post> postList =postRepository.findAllByStateNot("SAVE");
+        List<Post> postList =postRepository.findAllByStateNotOrderByPostIdDesc("SAVE");
 
         List<Follow> followings = followRepository.findAllByFromUser(email);
         List<Follow> followers = followRepository.findAllByToUser(email);
@@ -57,7 +57,7 @@ public class PostService {
 
     public List<PostEveryResponseDto> findByTitle(String words){
         List<PostEveryResponseDto> resultSet = new LinkedList<>();
-        List<Post> posts = postRepository.findAllByTitleContaining(words);
+        List<Post> posts = postRepository.findAllByTitleContainingOrderByPostIdDesc(words);
 
         for (Post post: posts){
             resultSet.add(new PostEveryResponseDto(post));
@@ -208,7 +208,7 @@ public class PostService {
     }
 
     public PostListResponseDto findByUserEmail(String userEmail) {
-        List<Post> posts = postRepository.findAllByAuthor(userEmail);
+        List<Post> posts = postRepository.findAllByAuthorOrderByPostIdDesc(userEmail);
         List<Post> savedPost = new LinkedList<>();
         List<Post> otherPost = new LinkedList<>();
         for (Post post : posts){
@@ -232,7 +232,7 @@ public class PostService {
 
         List<String> followResponseDto = new FollowResponseDto(followers, followings).getFollowing();
         for (String userEmail : followResponseDto){
-            List<Post> posts = postRepository.findAllByAuthor(userEmail);
+            List<Post> posts = postRepository.findAllByAuthorOrderByPostIdDesc(userEmail);
             FollowingPostResponseDto followingListResponseDto = new FollowingPostResponseDto(userEmail,posts);
             resultSet.add(followingListResponseDto);
         }
