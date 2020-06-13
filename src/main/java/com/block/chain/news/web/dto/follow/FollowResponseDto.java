@@ -13,18 +13,9 @@ public class FollowResponseDto {
     private List<String> following;
 
     public FollowResponseDto(List<Follow> followers, List<Follow> followings){
-//        List<Follow> followers = entity.getFollower();
-//        List<Follow> followings = entity.getFollowing();
         List<String> follower = new ArrayList<>();
         List<String> following = new ArrayList<>();
 
-//        for (Follow followerUser : followers) {
-//            follower.add(followerUser.getFromUser().getEmail());
-//        }
-
-//        for (Follow followingUser : followings) {
-//            following.add(followingUser.getToUser().getEmail());
-//        }
         for (Follow followerUser : followers){  // 내 아이디를 toUser로 찾아온것
             follower.add(followerUser.getFromUser());
         }

@@ -8,7 +8,6 @@ import com.block.chain.news.domain.post.Post;
 import com.block.chain.news.domain.post.PostRepository;
 import com.block.chain.news.domain.subject.Subject;
 import com.block.chain.news.domain.subject.SubjectRepository;
-import com.block.chain.news.domain.subjectList.SubjectListRepository;
 
 import com.block.chain.news.domain.user.User;
 import com.block.chain.news.domain.user.UserRepository;
@@ -270,8 +269,6 @@ public class PostService {
             FollowerPostResponseDto newOne = new FollowerPostResponseDto(subjectList.get(i).getTitle(), postList.get(i));
             resultSet.add(newOne);
         }
-
-
         return resultSet;
     }
 
