@@ -15,5 +15,4 @@ public class SubjectItem {
         this.subject = subject;
         this.posts = posts;
     }
-
 }

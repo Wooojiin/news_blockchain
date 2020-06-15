@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 public class SuggestionResponseDto {
+
     private List<SubjectItem> subjectItems;
 
     public SuggestionResponseDto(List<SubjectItem> subjectItems){

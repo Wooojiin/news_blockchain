@@ -11,7 +11,6 @@ public class ReportListResponseDto {
     private int agree;
     private int disagree;
 
-
     @Builder
     public ReportListResponseDto(Report entity){
         this.post = entity.getPost();

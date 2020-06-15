@@ -6,10 +6,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class FollowRequestDto {
-    // 나의 아이디
-    // 팔로우 대상의 아이디
 
-    private String fromUserEmail;
-    private String toUserEmail;
+    private String fromUserEmail;  // 나의 아이디
+    private String toUserEmail;  // 팔로우 대상의 아이디
 
 }

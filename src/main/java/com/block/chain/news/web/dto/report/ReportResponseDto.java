@@ -16,7 +16,6 @@ public class ReportResponseDto {
     private int disagree;
     private LocalDate endDate;
 
-
     @Builder
     public ReportResponseDto(Report entity){
         this.post = entity.getPost();
