@@ -55,7 +55,6 @@ public class UserApiController {
         log.info("UnFollow");
 
         return new ResponseEntity<String>(followService.unFollow(fromUser, toUser), HttpStatus.OK);
-
     }
 
     @GetMapping("/api/v1/fabric/account/{email}")
@@ -68,6 +67,7 @@ public class UserApiController {
     @GetMapping("/api/v1/user/find/{email}")
     public ResponseEntity<Boolean> isUser(@PathVariable String email){
         log.info("is User : {}", email);
+
         return new ResponseEntity<Boolean>(userService.isNewUser(email), HttpStatus.OK);
     }
 
