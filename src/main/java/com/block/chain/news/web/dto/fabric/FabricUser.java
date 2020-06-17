@@ -1,35 +1,16 @@
 package com.block.chain.news.web.dto.fabric;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class FabricUser {
-    String UserID; //  회원 email
+    String userId; //  회원 email
     String role;
 
-    public FabricUser(String UserID, String role){
-        this.UserID = UserID;
+    public FabricUser(String userId, String role){
+        this.userId = userId;
         this.role = role;
-    }
-
-    public String getUserID() {
-        return UserID;
-    }
-
-    public void setUserID(String userID) {
-        UserID = userID;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "FabricUser{" +
-                "UserID='" + UserID + '\'' +
-                ", role='" + role + '\'' +
-                '}';
     }
 }

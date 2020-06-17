@@ -1,35 +1,16 @@
 package com.block.chain.news.web.dto.fabric;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class FabricUserView {
-    String userID;
+    String userId;
     String count;
 
-    public FabricUserView(String userID, String count) {
-        this.userID = userID;
+    public FabricUserView(String userId, String count) {
+        this.userId = userId;
         this.count = count;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String getCount() {
-        return count;
-    }
-
-    public void setCount(String count) {
-        this.count = count;
-    }
-
-    @Override
-    public String toString() {
-        return "FabricUserView{" +
-                "userID='" + userID + '\'' +
-                ", count='" + count + '\'' +
-                '}';
     }
 }
