@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hyperledger.fabric.sdk.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,39 +23,51 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @NoArgsConstructor
 public class FabricCCService {
     /**
-     * 패브릭 네트워크를 이용하기 위한 정보
+     * Information for using Fabric network
      */
-    //    @Value("${fabric.ca-server.url}")
-    private String CA_SERVER_URL= "http://l02bch4.p.ssafy.io:8054";
-    //    @Value("${fabric.ca-server.admin.name}")
-    private String CA_SERVER_ADMIN_NAME = "admin";
-    //    @Value("${fabric.ca-server.pem.file}")
+    @Value("${fabric.caServer.url}")
+    private String CA_SERVER_URL;
+
+    @Value("${fabric.caServer.adminName}")
+    private String CA_SERVER_ADMIN_NAME;
+
     private String CA_SERVER_PEM_FILE =  "fabric-ca.pem";
-    //    @Value("${fabric.org.name}")
-    private String ORG_NAME = "HFTeam2";
-    //    @Value("${fabric.org.msp.name}")
-    private String ORG_MSP_NAME = "HFTeam2MSP";
-    //    @Value("${fabric.org.admin.name}")
-    private String ORG_ADMIN_NAME = "Admin@HFTeam2";
-    //    @Value("${fabric.peer.name}")
-    private String PEER_NAME = "peer0.HFTeam2";
-    //    @Value("${fabric.peer.url}")
-    private String PEER_URL = "grpc://l02bch4.p.ssafy.io:8051";
-    //    @Value("${fabric.peer.pem.file}")
+
+    @Value("${fabric.org.name}")
+    private String ORG_NAME;
+
+    @Value("${fabric.org.mspName}")
+    private String ORG_MSP_NAME;
+
+    @Value("${fabric.org.adminName}")
+    private String ORG_ADMIN_NAME;
+
+    @Value("${fabric.peer.name}")
+    private String PEER_NAME;
+
+    @Value("${fabric.peer.url}")
+    private String PEER_URL;
+
     private String PEER_PEM_FILE = "fabric-peer.pem";;
-    //    @Value("${fabric.orderer.name}")
-    private String ORDERER_NAME = "orderer0.ordererorg";;
-    //    @Value("${fabric.orderer.url}")
-    private String ORDERER_URL = "grpc://l02bch4.p.ssafy.io:7050";;
-    //    @Value("${fabric.orderer.pem.file}")
+
+    @Value("${fabric.orderer.name}")
+    private String ORDERER_NAME;
+
+    @Value("${fabric.orderer.url}")
+    private String ORDERER_URL;
+
     private String ORDERER_PEM_FILE = "fabric-orderer.pem";
-    //    @Value("${fabric.org.user.name}")
-    private String USER_NAME ="Admin@HFTeam2";
-    //    @Value("${fabric.org.user.secret}")
-    private String USER_SECRET = "HFTeam2pwd";
-    //    @Value("${fabric.channel.name}")
-    private String CHANNEL_NAME = "team2channel";
-    private final String CHAINCODE_NAME = "news_51"; //****
+
+    @Value("${fabric.org.userName}")
+    private String USER_NAME;
+
+    @Value("${fabric.org.userSecret}")
+    private String USER_SECRET;
+
+    @Value("${fabric.channel.name}")
+    private String CHANNEL_NAME;
+
+    private final String CHAINCODE_NAME = "news_51";
 
     private final byte[] EXPECTED_EVENT_DATA = "!".getBytes(UTF_8);
     private final String EXPECTED_EVENT_NAME = "event";
