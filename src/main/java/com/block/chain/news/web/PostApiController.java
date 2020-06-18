@@ -2,7 +2,7 @@ package com.block.chain.news.web;
 
 import com.block.chain.news.service.NaverAPIService;
 import com.block.chain.news.service.PostService;
-import com.block.chain.news.service.RestTemplateService;
+import com.block.chain.news.service.AnalysisService;
 import com.block.chain.news.web.dto.posts.*;
 import com.block.chain.news.web.dto.subject.SubjectListResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class PostApiController {
     private final PostService postService;
-    private final RestTemplateService restTemplateService;
+    private final AnalysisService restTemplateService;
     private final NaverAPIService naverAPIService;
 
     @GetMapping("/api/v1/posts/EveryThing/{userEmail}")

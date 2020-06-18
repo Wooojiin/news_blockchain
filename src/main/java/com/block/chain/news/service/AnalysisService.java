@@ -14,13 +14,15 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class RestTemplateService {
+public class AnalysisService {
     private final RestTemplate restTemplate;
+
+    private final String crawlServer = "http://k02b2041.p.ssafy.io:8197/api/morpheme";
 
     public String getMorpheme(String contents){
         MultiValueMap<String, String> params =new LinkedMultiValueMap<>();
         params.add("text", contents);
-        ResponseEntity<String[]> response = restTemplate.postForEntity("http://k02b2041.p.ssafy.io:8197/api/morpheme",params,String[].class);
+        ResponseEntity<String[]> response = restTemplate.postForEntity(crawlServer, params,String[].class);
         List<String> result = Arrays.asList(response.getBody());
         StringBuilder sb = new StringBuilder();
         for(int idx = 0; idx < result.size(); idx ++){
