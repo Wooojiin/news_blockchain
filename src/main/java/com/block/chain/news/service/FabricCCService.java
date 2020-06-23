@@ -395,24 +395,5 @@ public class FabricCCService {
         }
         return null;
     }
-    //FabricUser, //FabricNews, //FabricAD, //FabricTotalAmount, //FabricUserView, //FabricUserAccount
-
-    public static void main(String[] args){
-        FabricCCService fbcc = new FabricCCService();
-//        System.out.println(fbcc.registerUser("qwer1234","repoter"));
-//        fbcc.queryUser("qwer123");
-//        fbcc.registerNews("news1234","qwer1234","sports","content123");
-//        fbcc.queryNews("news123");
-//        fbcc.updateNews("news123","qwer123","sports","TTTTTTTT");
-//        fbcc.registerAD("ad1234","qwer123","1000000","3");
-//        fbcc.queryAD("ad123");
-//        String[] arr = {"ad123","ad1234"};
-//        System.out.println(fbcc.totalADAmountCalculation(arr));
-//        System.out.println(fbcc.clickNews("qwer1234","news123"));
-//        fbcc.userNewsView("qwer123");
-//        String[] arr = {"qwer123","qwer1234"};
-//        System.out.println(fbcc.divisionAmount(arr));
-//        fbcc.userAccount("qwer1234");
-    }
 }
 
