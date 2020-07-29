@@ -29,14 +29,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String role;
 
-//    @OneToMany(mappedBy = "fromUser", orphanRemoval = true)
-//    @JsonBackReference
-//    private List<Follow> follower;
-//
-//    @OneToMany(mappedBy = "toUser")
-//    @JsonBackReference
-//    private List<Follow> following;
-
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<Advertisement> advertisements;
